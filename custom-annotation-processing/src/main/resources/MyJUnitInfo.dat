@@ -1,0 +1,8 @@
+
+METHOD method2()
+Run-time: 5.005699928391E12 ms
+Test: FAILED
+
+------------------------------
+Passed: 0 Failed 1 Error 0
+The test is completed: OK

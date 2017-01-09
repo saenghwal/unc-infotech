@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dorm>
+  <room id="1" roomNumber="10" capacity="2" />
+  <room id="2" roomNumber="11" capacity="3" />
+  <room id="3" roomNumber="12" capacity="2" />
+  <room id="4" roomNumber="13" capacity="3" />
+  <room id="5" roomNumber="14" capacity="2" />
+  <room id="6" roomNumber="15" capacity="3" />
+  <room id="33" roomNumber="43" capacity="2">
+    <student id="1" firstName="Y" surname="X" patronymic="X" sex="Ж" dateOfBirth="1482953698327" educationYear="2016" />
+    <student id="2" firstName="Z" surname="Z" patronymic="Z" sex="М" dateOfBirth="1482953740408" educationYear="2017" />
+  </room>
+</dorm>

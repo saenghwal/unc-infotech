@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>netcracker.unc.infotech.ExpressionUtils</OriginalElement>
+  <nodes>
+    <node x="-135.5" y="-60.0">netcracker.unc.infotech.AppTest</node>
+    <node x="229.5" y="-56.0">netcracker.unc.infotech.ExpressionUtils</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="1.0" x="268.0" y="148.0" />
+  <SelectedNodes>
+    <node>netcracker.unc.infotech.ExpressionUtils</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Properties</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
