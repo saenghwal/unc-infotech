@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+  <changeSet id="1" author="saenghwal">
+    <createTable tableName="users">
+      <column name="id" type="bigint" autoIncrement="true" startWith="1">
+        <constraints primaryKey="true" nullable="false" />
+      </column>
+      <column name="username" type="varchar(256)">
+        <constraints nullable="false" unique="true" />
+      </column>
+      <column name="password" type="varchar(256)">
+        <constraints nullable="false" />
+      </column>
+      <column name="name" type="varchar(256)" />
+      <column name="created_at" type="datetime" defaultValueDate="current_timestamp">
+        <constraints nullable="false" />
+      </column>
+    </createTable>
+
+    <createTable tableName="auth_tokens">
+      <column name="id" type="bigint" autoIncrement="true" startWith="1">
+        <constraints primaryKey="true" nullable="false" />
+      </column>
+      <column name="token" type="varchar(256)">
+        <constraints nullable="false" unique="true" />
+      </column>
+      <column name="created_at" type="datetime" defaultValueDate="current_timestamp">
+        <constraints nullable="false" />
+      </column>
+      <column name="user_id" type="bigint">
+        <constraints nullable="false" />
+      </column>
+    </createTable>
+
+    <createTable tableName="budgets">
+      <column name="id" type="bigint" autoIncrement="true" startWith="1">
+        <constraints primaryKey="true" nullable="false" />
+      </column>
+      <column name="name" type="varchar(256)">
+        <constraints nullable="false" />
+      </column>
+      <column name="projected" type="numeric(12, 2)">
+        <constraints nullable="false" />
+      </column>
+      <column name="actual" type="numeric(12, 2)">
+        <constraints nullable="false" />
+      </column>
+      <column name="period_on" type="date">
+        <constraints nullable="false" />
+      </column>
+      <column name="created_at" type="datetime" defaultValueDate="current_timestamp">
+        <constraints nullable="false" />
+      </column>
+      <column name="user_id" type="bigint">
+        <constraints nullable="false" />
+      </column>
+      <column name="category_id" type="bigint">
+        <constraints nullable="false" />
+      </column>
+      <column name="type_id" type="bigint">
+        <constraints nullable="false" />
+      </column>
+    </createTable>
+
+    <createTable tableName="budget_types">
+      <column name="id" type="bigint" autoIncrement="true" startWith="1">
+        <constraints primaryKey="true" nullable="false" />
+      </column>
+      <column name="created_at" type="datetime" defaultValueDate="current_timestamp">
+        <constraints nullable="false" />
+      </column>
+    </createTable>
+
+    <createTable tableName="transactions">
+      <column name="id" type="bigint" autoIncrement="true" startWith="1">
+        <constraints primaryKey="true" nullable="false" />
+      </column>
+      <column name="name" type="varchar(256)">
+        <constraints nullable="false" />
+      </column>
+      <column name="amount" type="numeric(12, 2)">
+        <constraints nullable="false" />
+      </column>
+      <column name="remark" type="text" />
+      <column name="auto" type="boolean">
+        <constraints nullable="false" />
+      </column>
+      <column name="transaction_on" type="date" defaultValueDate="current_timestamp">
+        <constraints nullable="false" />
+      </column>
+      <column name="created_at" type="datetime" defaultValueDate="current_timestamp">
+        <constraints nullable="false" />
+      </column>
+      <column name="budget_id" type="bigint">
+        <constraints nullable="false" />
+      </column>
+      <column name="recurring_id" type="bigint" />
+    </createTable>
+
+    <createTable tableName="categories">
+      <column name="id" type="bigint" autoIncrement="true" startWith="1">
+        <constraints primaryKey="true" nullable="false" />
+      </column>
+      <column name="name" type="varchar(256)">
+        <constraints nullable="false" />
+      </column>
+      <column name="type" type="varchar(256)">
+        <constraints nullable="false" />
+      </column>
+      <column name="created_at" type="datetime" defaultValueDate="current_timestamp">
+        <constraints nullable="false" />
+      </column>
+      <column name="user_id" type="bigint">
+        <constraints nullable="false" />
+      </column>
+    </createTable>
+
+    <createTable tableName="recurrings">
+      <column name="id" type="bigint" autoIncrement="true" startWith="1">
+        <constraints primaryKey="true" nullable="false" />
+      </column>
+      <column name="amount" type="numeric(12, 2)">
+        <constraints nullable="false" />
+      </column>
+      <column name="type" type="varchar(256)">
+        <constraints nullable="false" />
+      </column>
+      <column name="last_run_at" type="datetime">
+        <constraints nullable="false" />
+      </column>
+      <column name="created_at" type="datetime" defaultValueDate="current_timestamp">
+        <constraints nullable="false" />
+      </column>
+      <column name="budget_type_id" type="bigint">
+        <constraints nullable="false" />
+      </column>
+    </createTable>
+
+    <addForeignKeyConstraint baseTableName="auth_tokens" baseColumnNames="user_id" constraintName="fk_auth_tokens_users"
+                             referencedTableName="users"
+                             referencedColumnNames="id" />
+
+    <addForeignKeyConstraint baseTableName="categories" baseColumnNames="user_id" constraintName="fk_categories_users"
+                             referencedTableName="users"
+                             referencedColumnNames="id" />
+
+    <addForeignKeyConstraint baseTableName="budgets" baseColumnNames="user_id" constraintName="fk_budgets_users"
+                             referencedTableName="users"
+                             referencedColumnNames="id" />
+
+    <addForeignKeyConstraint baseTableName="budgets" baseColumnNames="category_id"
+                             constraintName="fk_budgets_categories"
+                             referencedTableName="categories"
+                             referencedColumnNames="id" />
+
+    <addForeignKeyConstraint baseTableName="budgets" baseColumnNames="type_id"
+                             constraintName="fk_budgets_types"
+                             referencedTableName="budget_types"
+                             referencedColumnNames="id" />
+
+    <addForeignKeyConstraint baseTableName="transactions" baseColumnNames="budget_id"
+                             constraintName="fk_transactions_budgets"
+                             referencedTableName="budgets"
+                             referencedColumnNames="id" />
+
+    <addForeignKeyConstraint baseTableName="transactions" baseColumnNames="recurring_id"
+                             onDelete="SET NULL"
+                             constraintName="fk_transactions_recurrings"
+                             referencedTableName="recurrings"
+                             referencedColumnNames="id" />
+
+    <addForeignKeyConstraint baseTableName="recurrings" baseColumnNames="budget_type_id"
+                             constraintName="fk_recurrngs_budget_types"
+                             referencedTableName="budget_types"
+                             referencedColumnNames="id" />
+  </changeSet>
+</databaseChangeLog>
