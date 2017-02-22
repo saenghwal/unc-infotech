@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+        version="2.0">
+
+    <entity class="entity.CategoriesEntity">
+        <table name="categories" schema="public" catalog="budget"/>
+        <attributes>
+            <id name="id">
+                <column name="id" precision="-1"/>
+            </id>
+            <basic name="name">
+                <column name="name" length="256"/>
+            </basic>
+            <basic name="type">
+                <column name="type" length="256"/>
+            </basic>
+            <basic name="createdAt">
+                <column name="created_at" precision="-1"/>
+            </basic>
+            <many-to-one name="usersByUserId" optional="true" target-entity="entity.UsersEntity">
+                <join-column name="user_id" referenced-column-name="id"/>
+            </many-to-one>
+            <one-to-many name="budgetsesById" mapped-by="categoriesByCategoryId"
+                         target-entity="entity.BudgetsEntity"/>
+        </attributes>
+    </entity>
+</entity-mappings>
