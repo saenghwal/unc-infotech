@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="org.postgres.Driver"/>
+                <property name="url" value="$jdbc:postgresql://localhost:5432/budget"/>
+                <property name="username" value="postgres"/>
+                <property name="password" value="postgres"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <typeAliases>
+        <typeAlias alias="Finance" type ="com.netcracker.financeapp.mapping.Finance" />
+        <typeAlias alias="Type" type ="com.netcracker.financeapp.mapping.Type" />
+        <typeAlias alias="Agent" type ="com.netcracker.financeapp.mapping.Agent" />
+        <typeAlias alias="BankCard" type ="com.netcracker.financeapp.mapping.BankCard" />
+        <typeAlias alias="Transaction" type ="com.netcracker.financeapp.mapping.Transaction" />
+    </typeAliases>
+    <mappers>
+        <mapper resource="com/netcracker/financeapp/dao/FinanceMapper.xml"/>
+        <mapper resource="com/netcracker/financeapp/dao/TypeMapper.xml"/>
+        <mapper resource="com/netcracker/financeapp/dao/AgentMapper.xml"/>
+        <mapper resource="com/netcracker/financeapp/dao/BankCardMapper.xml"/>
+        <mapper resource="com/netcracker/financeapp/dao/TransactionMapper.xml"/>
+    </mappers>
+</configuration>
