@@ -1,4 +1,4 @@
-package io.smartbudget.ejb.dao;
+package io.smartbudget.hibernate.dao;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -13,8 +13,8 @@ import java.util.Collection;
 import java.util.List;
 
 import io.smartbudget.configuration.AppConfiguration;
-import io.smartbudget.persistence.entity.Category;
-import io.smartbudget.persistence.entity.User;
+import io.smartbudget.ejb.persistence.entity.Category;
+import io.smartbudget.ejb.persistence.entity.User;
 import io.smartbudget.exception.NotFoundException;
 
 

@@ -3,7 +3,9 @@ package io.smartbudget.domain;
 import java.io.Serializable;
 import java.util.List;
 
-import io.smartbudget.persistence.entity.Budget;
+import io.smartbudget.ejb.persistence.enums.CategoryType;
+import io.smartbudget.ejb.persistence.entity.Budget;
+import io.smartbudget.ejb.persistence.enums.entity.CategoryType;
 
 public class Group implements Serializable {
 

@@ -129,11 +129,11 @@
             <version>1.2.1</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.cvent</groupId>
-            <artifactId>dropwizard-mybatis</artifactId>
-            <version>3.1.7</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.cvent</groupId>-->
+            <!--<artifactId>dropwizard-mybatis</artifactId>-->
+            <!--<version>3.1.7</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>io.dropwizard</groupId>
@@ -188,6 +188,27 @@
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-hibernate</artifactId>
             <version>${dropwizard.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>3.0-alpha-1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>6.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+            <version>6.0</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

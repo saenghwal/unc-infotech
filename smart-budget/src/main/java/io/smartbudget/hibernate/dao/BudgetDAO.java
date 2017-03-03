@@ -1,4 +1,4 @@
-package io.smartbudget.ejb.dao;
+package io.smartbudget.hibernate.dao;
 
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
@@ -17,8 +17,8 @@ import java.util.Map;
 import java.util.Objects;
 
 import io.smartbudget.configuration.AppConfiguration;
-import io.smartbudget.persistence.entity.Budget;
-import io.smartbudget.persistence.entity.User;
+import io.smartbudget.ejb.persistence.entity.Budget;
+import io.smartbudget.ejb.persistence.entity.User;
 import io.smartbudget.exception.AccessDeniedException;
 import io.smartbudget.exception.NotFoundException;
 import io.smartbudget.util.Util;

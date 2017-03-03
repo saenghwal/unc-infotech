@@ -1,14 +1,11 @@
-package io.smartbudget.ejb.dao;
+package io.smartbudget.hibernate.dao;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 
-import io.budgetapp.application.NotFoundException;
 import io.dropwizard.hibernate.AbstractDAO;
+import io.smartbudget.exception.NotFoundException;
 
-/**
- *
- */
 public class DefaultDAO<T> extends AbstractDAO<T> {
 
 

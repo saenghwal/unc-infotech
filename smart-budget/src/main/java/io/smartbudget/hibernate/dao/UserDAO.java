@@ -1,4 +1,4 @@
-package io.smartbudget.ejb.dao;
+package io.smartbudget.hibernate.dao;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 import io.dropwizard.hibernate.AbstractDAO;
-import io.smartbudget.persistence.entity.User;
+import io.smartbudget.ejb.persistence.entity.User;
 import io.smartbudget.exception.NotFoundException;
 import io.smartbudget.form.SignUpForm;
 

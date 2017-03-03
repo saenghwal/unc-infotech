@@ -1,4 +1,4 @@
-package io.smartbudget.domain;
+package io.smartbudget.ejb.persistence.enums.entity;
 
 public enum RecurringType {
 

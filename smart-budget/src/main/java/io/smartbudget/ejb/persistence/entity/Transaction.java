@@ -1,4 +1,4 @@
-package io.smartbudget.persistence.entity;
+package io.smartbudget.ejb.persistence.entity;
 
 import java.io.Serializable;
 import java.util.Date;

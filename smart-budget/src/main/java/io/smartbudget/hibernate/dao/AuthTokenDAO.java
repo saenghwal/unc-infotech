@@ -1,4 +1,4 @@
-package io.smartbudget.ejb.dao;
+package io.smartbudget.hibernate.dao;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import io.smartbudget.persistence.entity.AuthToken;
-import io.smartbudget.persistence.entity.User;
+import io.smartbudget.ejb.persistence.entity.AuthToken;
+import io.smartbudget.ejb.persistence.entity.User;
 import io.dropwizard.hibernate.AbstractDAO;
 
 public class AuthTokenDAO extends AbstractDAO<AuthToken> {

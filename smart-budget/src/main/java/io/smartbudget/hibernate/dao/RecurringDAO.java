@@ -1,13 +1,16 @@
-package io.smartbudget.ejb.dao;
+package io.smartbudget.hibernate.dao;
 
 import org.hibernate.SessionFactory;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import io.smartbudget.persistence.entity.Recurring;
-import io.smartbudget.persistence.entity.User;
+import io.smartbudget.ejb.persistence.enums.RecurringType;
+import io.smartbudget.ejb.persistence.enums.entity.RecurringType;
+import io.smartbudget.ejb.persistence.entity.Recurring;
+import io.smartbudget.ejb.persistence.entity.User;
 import io.dropwizard.hibernate.AbstractDAO;
+import io.smartbudget.util.Util;
 
 public class RecurringDAO extends AbstractDAO<Recurring> {
 

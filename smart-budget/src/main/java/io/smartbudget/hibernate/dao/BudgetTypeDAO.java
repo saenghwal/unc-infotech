@@ -1,9 +1,9 @@
-package io.smartbudget.ejb.dao;
+package io.smartbudget.hibernate.dao;
 
 import org.hibernate.SessionFactory;
 
 import io.dropwizard.hibernate.AbstractDAO;
-import io.smartbudget.persistence.entity.BudgetType;
+import io.smartbudget.ejb.persistence.entity.BudgetType;
 
 public class BudgetTypeDAO extends AbstractDAO<BudgetType> {
 
