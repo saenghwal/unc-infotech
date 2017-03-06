@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import io.smartbudget.domain.ValidationMessage;
+import io.smartbudget.util.ValidationMessage;
 
 
 @Provider

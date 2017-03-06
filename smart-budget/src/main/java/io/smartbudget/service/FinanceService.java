@@ -34,7 +34,7 @@ import io.smartbudget.ejb.persistence.entity.AuthToken;
 import io.smartbudget.ejb.persistence.entity.Budget;
 import io.smartbudget.ejb.persistence.entity.BudgetType;
 import io.smartbudget.ejb.persistence.entity.Category;
-import io.smartbudget.ejb.persistence.enums.entity.CategoryType;
+import io.smartbudget.ejb.persistence.enums.*;
 import io.smartbudget.domain.Group;
 import io.smartbudget.domain.Point;
 import io.smartbudget.domain.PointType;

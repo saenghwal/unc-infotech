@@ -1,13 +1,10 @@
-package io.smartbudget.domain;
+package io.smartbudget.util;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
-/**
- *
- */
 public class ValidationMessage implements Serializable {
 
     private static final long serialVersionUID = 4630394887642028993L;

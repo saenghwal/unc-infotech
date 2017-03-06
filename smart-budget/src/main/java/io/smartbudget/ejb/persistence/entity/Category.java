@@ -3,7 +3,7 @@ package io.smartbudget.ejb.persistence.entity;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import io.smartbudget.ejb.persistence.enums.entity.CategoryType;
+import io.smartbudget.ejb.persistence.enums.CategoryType;
 
 public class Category {
     private long id;
