@@ -15,8 +15,8 @@ import javax.ws.rs.core.Response;
 
 import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
-import io.smartbudget.ejb.persistence.entity.Recurring;
-import io.smartbudget.ejb.persistence.entity.User;
+import io.smartbudget.domain.entity.Recurring;
+import io.smartbudget.domain.entity.User;
 import io.smartbudget.form.recurring.AddRecurringForm;
 import io.smartbudget.service.FinanceService;
 

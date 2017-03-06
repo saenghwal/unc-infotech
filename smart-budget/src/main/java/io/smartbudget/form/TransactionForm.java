@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.Date;
 
-import io.smartbudget.ejb.persistence.enums.RecurringType;
-import io.smartbudget.ejb.persistence.entity.Budget;
-import io.smartbudget.ejb.persistence.enums.entity.RecurringType;
+import io.smartbudget.domain.enums.RecurringType;
+import io.smartbudget.domain.entity.Budget;
+import io.smartbudget.domain.enums.entity.RecurringType;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)

@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import io.smartbudget.ejb.persistence.entity.AuthToken;
-import io.smartbudget.ejb.persistence.entity.User;
+import io.smartbudget.domain.entity.AuthToken;
+import io.smartbudget.domain.entity.User;
 import io.dropwizard.hibernate.AbstractDAO;
 
 public class AuthTokenDAO extends AbstractDAO<AuthToken> {

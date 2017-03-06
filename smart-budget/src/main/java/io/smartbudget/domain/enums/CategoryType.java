@@ -1,4 +1,4 @@
-package io.smartbudget.ejb.persistence.enums;
+package io.smartbudget.domain.enums;
 
 public enum CategoryType {
 

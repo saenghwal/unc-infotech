@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.smartbudget.ejb.persistence.entity.Budget;
+import io.smartbudget.domain.entity.Budget;
 
 public class AccountSummary implements Serializable {
 

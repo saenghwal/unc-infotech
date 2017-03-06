@@ -13,8 +13,8 @@ import java.util.Collection;
 import java.util.List;
 
 import io.smartbudget.configuration.AppConfiguration;
-import io.smartbudget.ejb.persistence.entity.Category;
-import io.smartbudget.ejb.persistence.entity.User;
+import io.smartbudget.domain.entity.Category;
+import io.smartbudget.domain.entity.User;
 import io.smartbudget.exception.NotFoundException;
 
 

@@ -1,10 +1,10 @@
-package io.smartbudget.ejb.persistence.entity;
+package io.smartbudget.domain.entity;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import io.smartbudget.ejb.persistence.enums.entity.RecurringType;
+import io.smartbudget.domain.enums.entity.RecurringType;
 
 public class Recurring implements Serializable {
 

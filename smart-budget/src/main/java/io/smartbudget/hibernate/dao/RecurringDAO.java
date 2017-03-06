@@ -5,10 +5,10 @@ import org.hibernate.SessionFactory;
 import java.time.LocalDate;
 import java.util.List;
 
-import io.smartbudget.ejb.persistence.enums.RecurringType;
-import io.smartbudget.ejb.persistence.enums.entity.RecurringType;
-import io.smartbudget.ejb.persistence.entity.Recurring;
-import io.smartbudget.ejb.persistence.entity.User;
+import io.smartbudget.domain.enums.RecurringType;
+import io.smartbudget.domain.enums.entity.RecurringType;
+import io.smartbudget.domain.entity.Recurring;
+import io.smartbudget.domain.entity.User;
 import io.dropwizard.hibernate.AbstractDAO;
 import io.smartbudget.util.Util;
 

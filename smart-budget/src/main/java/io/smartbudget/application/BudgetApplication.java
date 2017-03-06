@@ -2,7 +2,9 @@ package io.smartbudget.application;
 
 import com.bazaarvoice.dropwizard.assets.ConfiguredAssetsBundle;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
+import com.loginbox.dropwizard.mybatis.MybatisBundle;
 
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.tuckey.web.filters.urlrewrite.UrlRewriteFilter;
 
@@ -29,13 +31,13 @@ import io.smartbudget.auth.TokenAuthenticator;
 import io.smartbudget.configuration.AppConfiguration;
 import io.smartbudget.crypto.PasswordEncoder;
 import io.smartbudget.domain.job.RecurringJob;
-import io.smartbudget.ejb.persistence.entity.AuthToken;
-import io.smartbudget.ejb.persistence.entity.Budget;
-import io.smartbudget.ejb.persistence.entity.BudgetType;
-import io.smartbudget.ejb.persistence.entity.Category;
-import io.smartbudget.ejb.persistence.entity.Recurring;
-import io.smartbudget.ejb.persistence.entity.Transaction;
-import io.smartbudget.ejb.persistence.entity.User;
+import io.smartbudget.domain.entity.AuthToken;
+import io.smartbudget.domain.entity.Budget;
+import io.smartbudget.domain.entity.BudgetType;
+import io.smartbudget.domain.entity.Category;
+import io.smartbudget.domain.entity.Recurring;
+import io.smartbudget.domain.entity.Transaction;
+import io.smartbudget.domain.entity.User;
 import io.smartbudget.exception.ConstraintViolationExceptionMapper;
 import io.smartbudget.exception.DataConstraintExceptionMapper;
 import io.smartbudget.exception.NotFoundExceptionMapper;
@@ -64,9 +66,7 @@ public class BudgetApplication extends Application<AppConfiguration> {
         new BudgetApplication().run(args);
     }
 
-    private final HibernateBundle<AppConfiguration> hibernate = new HibernateBundle<AppConfiguration>(
-            User.class, Category.class, Budget.class, BudgetType.class, Transaction.class,
-            Recurring.class, AuthToken.class) {
+    private final HibernateBundle<AppConfiguration> hibernate = new HibernateBundle<AppConfiguration>(User.class, Category.class, Budget.class, BudgetType.class, Transaction.class, Recurring.class, AuthToken.class) {
 
         @Override
         protected Hibernate5Module createHibernate5Module() {
@@ -77,6 +77,14 @@ public class BudgetApplication extends Application<AppConfiguration> {
             return module;
         }
 
+        @Override
+        public DataSourceFactory getDataSourceFactory(AppConfiguration configuration) {
+            return configuration.getDataSourceFactory();
+        }
+    };
+
+    private final MybatisBundle<AppConfiguration> mybatisBundle
+            = new MybatisBundle<AppConfiguration>("io.smartbudget") {
         @Override
         public DataSourceFactory getDataSourceFactory(AppConfiguration configuration) {
             return configuration.getDataSourceFactory();
@@ -106,12 +114,13 @@ public class BudgetApplication extends Application<AppConfiguration> {
         );
 
         bootstrap.addBundle(migrationBundle);
-        bootstrap.addBundle(hibernate);
+        bootstrap.addBundle(mybatisBundle);
         bootstrap.addBundle(new ConfiguredAssetsBundle("/app", "/app", "index.html"));
     }
 
     @Override
     public void run(AppConfiguration configuration, Environment environment) {
+        SqlSessionFactory sessionFactory = mybatisBundle.getSqlSessionFactory();
 
         // password encoder
         final PasswordEncoder passwordEncoder = new PasswordEncoder();

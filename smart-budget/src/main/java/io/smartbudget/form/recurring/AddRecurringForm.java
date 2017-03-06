@@ -7,8 +7,8 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
-import io.smartbudget.ejb.persistence.enums.RecurringType;
-import io.smartbudget.ejb.persistence.enums.entity.RecurringType;
+import io.smartbudget.domain.enums.RecurringType;
+import io.smartbudget.domain.enums.entity.RecurringType;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)

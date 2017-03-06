@@ -11,8 +11,8 @@ import javax.ejb.Stateful;
 import javax.inject.Inject;
 
 import io.smartbudget.ejb.persistence.dao.BudgetDAO;
-import io.smartbudget.ejb.persistence.entity.Budget;
-import io.smartbudget.ejb.persistence.entity.User;
+import io.smartbudget.domain.entity.Budget;
+import io.smartbudget.domain.entity.User;
 import io.smartbudget.ejb.persistence.mappers.UserMapper;
 import io.smartbudget.util.Util;
 

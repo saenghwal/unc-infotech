@@ -1,7 +1,7 @@
 package io.smartbudget.auth;
 
 import io.dropwizard.auth.Authorizer;
-import io.smartbudget.ejb.persistence.entity.User;
+import io.smartbudget.domain.entity.User;
 
 public class DefaultAuthorizer implements Authorizer<User> {
     @Override

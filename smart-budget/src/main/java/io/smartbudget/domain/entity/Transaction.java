@@ -1,4 +1,4 @@
-package io.smartbudget.ejb.persistence.entity;
+package io.smartbudget.domain.entity;
 
 import java.io.Serializable;
 import java.util.Date;

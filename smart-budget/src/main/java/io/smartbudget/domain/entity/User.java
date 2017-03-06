@@ -1,4 +1,4 @@
-package io.smartbudget.ejb.persistence.entity;
+package io.smartbudget.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

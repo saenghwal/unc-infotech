@@ -1,9 +1,9 @@
-package io.smartbudget.ejb.persistence.entity;
+package io.smartbudget.domain.entity;
 
 import java.sql.Timestamp;
 import java.util.Date;
 
-import io.smartbudget.ejb.persistence.enums.CategoryType;
+import io.smartbudget.domain.enums.CategoryType;
 
 public class Category {
     private long id;
