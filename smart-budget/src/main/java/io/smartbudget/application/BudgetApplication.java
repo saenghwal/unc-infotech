@@ -115,6 +115,7 @@ public class BudgetApplication extends Application<AppConfiguration> {
 
         bootstrap.addBundle(migrationBundle);
         bootstrap.addBundle(mybatisBundle);
+        bootstrap.addBundle(hibernate);
         bootstrap.addBundle(new ConfiguredAssetsBundle("/app", "/app", "index.html"));
     }
 

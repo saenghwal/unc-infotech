@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import io.smartbudget.domain.enums.RecurringType;
-import io.smartbudget.domain.enums.entity.RecurringType;
+import io.smartbudget.domain.enums.RecurringType;
 import io.smartbudget.domain.entity.Recurring;
 import io.smartbudget.domain.entity.User;
 import io.dropwizard.hibernate.AbstractDAO;

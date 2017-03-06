@@ -7,7 +7,7 @@ import java.util.Date;
 
 import io.smartbudget.domain.enums.RecurringType;
 import io.smartbudget.domain.entity.Budget;
-import io.smartbudget.domain.enums.entity.RecurringType;
+import io.smartbudget.domain.enums.RecurringType;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import io.smartbudget.domain.enums.entity.RecurringType;
+import io.smartbudget.domain.enums.RecurringType;
 
 public class Recurring implements Serializable {
 
