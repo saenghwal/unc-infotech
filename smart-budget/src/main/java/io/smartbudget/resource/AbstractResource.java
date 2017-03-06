@@ -5,9 +5,6 @@ import java.net.URISyntaxException;
 
 import javax.ws.rs.core.Response;
 
-/**
- *
- */
 abstract class AbstractResource {
 
     public abstract String getPath();

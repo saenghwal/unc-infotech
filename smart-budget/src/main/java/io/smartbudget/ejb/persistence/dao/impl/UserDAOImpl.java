@@ -1,5 +1,6 @@
 package io.smartbudget.ejb.persistence.dao.impl;
 
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +22,18 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
 
+    private SqlSessionFactory sessionFactory;
+
     @Inject
+    public UserDAOImpl(UserMapper mapper, SqlSessionFactory sessionFactory) {
+        super(mapper);
+        this.sessionFactory = sessionFactory;
+    }
+
+    public UserDAOImpl(SqlSessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
     public UserDAOImpl(UserMapper mapper) {
         super(mapper);
     }

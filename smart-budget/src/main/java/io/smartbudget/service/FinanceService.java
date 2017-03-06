@@ -1,5 +1,6 @@
 package io.smartbudget.service;
 
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,13 +24,14 @@ import java.util.stream.Collectors;
 import io.smartbudget.crypto.PasswordEncoder;
 
 import io.smartbudget.domain.AccountSummary;
+import io.smartbudget.ejb.persistence.dao.UserDAO;
+import io.smartbudget.ejb.persistence.dao.impl.UserDAOImpl;
 import io.smartbudget.hibernate.dao.AuthTokenDAO;
 import io.smartbudget.hibernate.dao.BudgetDAO;
 import io.smartbudget.hibernate.dao.BudgetTypeDAO;
 import io.smartbudget.hibernate.dao.CategoryDAO;
 import io.smartbudget.hibernate.dao.RecurringDAO;
 import io.smartbudget.hibernate.dao.TransactionDAO;
-import io.smartbudget.hibernate.dao.UserDAO;
 import io.smartbudget.domain.entity.AuthToken;
 import io.smartbudget.domain.entity.Budget;
 import io.smartbudget.domain.entity.BudgetType;
@@ -59,7 +61,8 @@ public class FinanceService {
     private static final Logger LOGGER = LoggerFactory.getLogger(FinanceService.class);
     private static final DateTimeFormatter SUMMARY_DATE_FORMATTER = DateTimeFormatter.ofPattern("dd MMM");
 
-    private final SessionFactory sessionFactory;
+    private SessionFactory hibernateSession = null;
+    private SqlSessionFactory mybatisSession = null;
     private final UserDAO userDAO;
     private final BudgetDAO budgetDAO;
     private final BudgetTypeDAO budgetTypeDAO;
@@ -70,8 +73,29 @@ public class FinanceService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public FinanceService(SessionFactory sessionFactory, UserDAO userDAO, BudgetDAO budgetDAO, BudgetTypeDAO budgetTypeDAO, CategoryDAO categoryDAO, TransactionDAO transactionDAO, RecurringDAO recurringDAO, AuthTokenDAO authTokenDAO, PasswordEncoder passwordEncoder) {
-        this.sessionFactory = sessionFactory;
+//    public FinanceService(SessionFactory sessionFactory, io.smartbudget.hibernate.dao.UserDAO userDAO, BudgetDAO budgetDAO,
+//                          BudgetTypeDAO budgetTypeDAO, CategoryDAO categoryDAO,
+//                          TransactionDAO transactionDAO, RecurringDAO recurringDAO,
+//                          AuthTokenDAO authTokenDAO, PasswordEncoder passwordEncoder) {
+//
+//        this.hibernateSession = sessionFactory;
+//        this.userDAO = userDAO;
+//        this.budgetDAO = budgetDAO;
+//        this.budgetTypeDAO = budgetTypeDAO;
+//        this.categoryDAO = categoryDAO;
+//        this.transactionDAO = transactionDAO;
+//        this.recurringDAO = recurringDAO;
+//        this.authTokenDAO = authTokenDAO;
+//
+//        this.passwordEncoder = passwordEncoder;
+//    }
+
+    public FinanceService(SqlSessionFactory sessionFactory, UserDAO userDAO, BudgetDAO budgetDAO,
+                          BudgetTypeDAO budgetTypeDAO, CategoryDAO categoryDAO,
+                          TransactionDAO transactionDAO, RecurringDAO recurringDAO,
+                          AuthTokenDAO authTokenDAO, PasswordEncoder passwordEncoder) {
+
+        this.mybatisSession = sessionFactory;
         this.userDAO = userDAO;
         this.budgetDAO = budgetDAO;
         this.budgetTypeDAO = budgetTypeDAO;
@@ -83,8 +107,12 @@ public class FinanceService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
+    public SessionFactory getHibernateSession() {
+        return hibernateSession;
+    }
+
+    public SqlSessionFactory getMybatisSession() {
+        return mybatisSession;
     }
 
     public User addUser(SignUpForm signUp) {

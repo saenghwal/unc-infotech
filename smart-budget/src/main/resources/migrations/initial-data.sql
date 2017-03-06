@@ -141,3 +141,5 @@ INSERT INTO public.budget_types (id, created_at) VALUES (63, '2017-02-15 10:01:1
 INSERT INTO public.budget_types (id, created_at) VALUES (64, '2017-02-15 10:01:16.113000');
 INSERT INTO public.budget_types (id, created_at) VALUES (65, '2017-02-15 10:01:16.113000');
 
+INSERT INTO public.users (id, username, password, name, created_at, currency) VALUES (1, 'frienheint89@yandex.ru', '6a4e7bca36d4f95feb5ba517abbe42898b14781fc3ea30af4276287ab87348fcd1948b83760b507b', null, '2017-02-15 10:01:16.113000', null);
+
