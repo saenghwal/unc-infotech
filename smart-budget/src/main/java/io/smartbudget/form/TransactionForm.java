@@ -5,10 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.Date;
 
-import io.smartbudget.domain.enums.RecurringType;
 import io.smartbudget.domain.entity.Budget;
 import io.smartbudget.domain.enums.RecurringType;
-
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TransactionForm implements Serializable {
