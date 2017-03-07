@@ -1,4 +1,4 @@
-package io.smartbudget.dialect;
+package io.smartbudget.hibernate.dialect;
 
 import org.hibernate.dialect.PostgreSQL9Dialect;
 import org.hibernate.dialect.function.SQLFunctionTemplate;

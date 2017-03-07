@@ -2,7 +2,7 @@ package io.smartbudget.ejb.persistence.dao;
 
 import java.util.Optional;
 
-import io.smartbudget.domain.entity.User;
+import io.smartbudget.domain.dto.User;
 import io.smartbudget.form.SignUpForm;
 
 public interface UserDAO  extends GenericDAO<User, Long> {

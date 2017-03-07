@@ -1,4 +1,4 @@
-package io.smartbudget.domain.entity;
+package io.smartbudget.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

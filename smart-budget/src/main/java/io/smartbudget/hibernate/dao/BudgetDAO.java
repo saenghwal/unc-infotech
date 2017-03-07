@@ -17,8 +17,8 @@ import java.util.Map;
 import java.util.Objects;
 
 import io.smartbudget.configuration.AppConfiguration;
-import io.smartbudget.domain.entity.Budget;
-import io.smartbudget.domain.entity.User;
+import io.smartbudget.domain.dto.Budget;
+import io.smartbudget.domain.dto.User;
 import io.smartbudget.exception.AccessDeniedException;
 import io.smartbudget.exception.NotFoundException;
 import io.smartbudget.util.Util;

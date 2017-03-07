@@ -12,8 +12,8 @@ import java.util.Map;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import io.smartbudget.domain.entity.Budget;
-import io.smartbudget.domain.entity.Category;
+import io.smartbudget.domain.dto.Budget;
+import io.smartbudget.domain.dto.Category;
 import io.dropwizard.Configuration;
 import io.dropwizard.db.DataSourceFactory;
 

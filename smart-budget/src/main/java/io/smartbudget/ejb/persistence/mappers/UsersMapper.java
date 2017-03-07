@@ -3,11 +3,12 @@ package io.smartbudget.ejb.persistence.mappers;
 
 import java.util.Optional;
 
-import io.smartbudget.domain.entity.User;
+import io.smartbudget.domain.dto.User;
+import io.smartbudget.form.SignUpForm;
 
-public interface UserMapper extends GenericMapper<User, Long> {
+public interface UsersMapper extends GenericMapper<User, Long> {
 
-    void addUser(User user);
+    void addUser(SignUpForm signUp);
 
     User findById(Long userId);
 

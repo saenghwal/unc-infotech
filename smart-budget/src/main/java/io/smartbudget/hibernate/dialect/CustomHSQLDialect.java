@@ -1,4 +1,4 @@
-package io.smartbudget.dialect;
+package io.smartbudget.hibernate.dialect;
 
 import org.hibernate.dialect.HSQLDialect;
 import org.hibernate.dialect.function.SQLFunctionTemplate;

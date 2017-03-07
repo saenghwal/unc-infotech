@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 import io.dropwizard.hibernate.AbstractDAO;
-import io.smartbudget.domain.entity.User;
+import io.smartbudget.configuration.AppConfiguration;
+import io.smartbudget.domain.dto.User;
 import io.smartbudget.exception.NotFoundException;
 import io.smartbudget.form.SignUpForm;
 
@@ -18,7 +19,7 @@ public class UserDAO extends AbstractDAO<User> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserDAO.class);
 
-    public UserDAO(SessionFactory sessionFactory) {
+    public UserDAO(SessionFactory sessionFactory, AppConfiguration configuration) {
         super(sessionFactory);
     }
 

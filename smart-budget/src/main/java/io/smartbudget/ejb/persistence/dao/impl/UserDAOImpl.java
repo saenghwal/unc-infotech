@@ -1,5 +1,6 @@
 package io.smartbudget.ejb.persistence.dao.impl;
 
+import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,8 +12,8 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import io.smartbudget.ejb.persistence.dao.UserDAO;
-import io.smartbudget.domain.entity.User;
-import io.smartbudget.ejb.persistence.mappers.UserMapper;
+import io.smartbudget.domain.dto.User;
+import io.smartbudget.ejb.persistence.mappers.UsersMapper;
 import io.smartbudget.exception.NotFoundException;
 import io.smartbudget.form.SignUpForm;
 
@@ -25,17 +26,13 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
     private SqlSessionFactory sessionFactory;
 
     @Inject
-    public UserDAOImpl(UserMapper mapper, SqlSessionFactory sessionFactory) {
+    public UserDAOImpl(UsersMapper mapper, SqlSessionFactory sessionFactory) {
         super(mapper);
         this.sessionFactory = sessionFactory;
     }
 
     public UserDAOImpl(SqlSessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
-    }
-
-    public UserDAOImpl(UserMapper mapper) {
-        super(mapper);
     }
 
     public UserDAOImpl() {
@@ -46,17 +43,20 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
         User user = new User();
         user.setUsername(signUp.getUsername());
         user.setPassword(signUp.getPassword());
-        //user = persist(user);
+        try (SqlSession session = sessionFactory.openSession()) {
+            UsersMapper users = session.getMapper(UsersMapper.class);
+            users.addUser(signUp);
+        }
         return user;
     }
     @Override
     public Optional<User> findByUsername(String username) {
-        return ((UserMapper) mapper).findByUserName(username);
+        return ((UsersMapper) mapper).findByUserName(username);
     }
 
     @Override
     public User findById(Long userId) {
-        User user = ((UserMapper) mapper).findById(userId);
+        User user = ((UsersMapper) mapper).findById(userId);
         if(user == null) {
             throw new NotFoundException();
         }

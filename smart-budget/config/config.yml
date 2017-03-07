@@ -16,7 +16,7 @@ database:
   # any properties specific to JDBC driver:
   properties:
     charSet: UTF-8
-    hibernate.dialect: ${DB_DIALECT:-io.smartbudget.dialect.CustomPostgreSQLDialect}
+    hibernate.dialect: ${DB_DIALECT:-io.smartbudget.hibernate.dialect.CustomPostgreSQLDialect}
     hibernate.format_sql: true
 
   validationQuery: ${DB_VALIDATE_QUERY:-SELECT 1}

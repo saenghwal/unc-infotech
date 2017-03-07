@@ -3,6 +3,7 @@ package smartbudget.resource;
 
 import org.junit.Assert;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -12,7 +13,7 @@ import javax.ws.rs.core.Response;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import io.smartbudget.application.BudgetApplication;
 import io.smartbudget.configuration.AppConfiguration;
-import io.smartbudget.domain.entity.User;
+import io.smartbudget.domain.dto.User;
 import io.smartbudget.form.LoginForm;
 import io.smartbudget.form.SignUpForm;
 import io.smartbudget.form.user.Password;

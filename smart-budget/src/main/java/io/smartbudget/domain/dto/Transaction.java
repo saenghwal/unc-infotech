@@ -1,4 +1,4 @@
-package io.smartbudget.domain.entity;
+package io.smartbudget.domain.dto;
 
 import java.io.Serializable;
 import java.util.Date;

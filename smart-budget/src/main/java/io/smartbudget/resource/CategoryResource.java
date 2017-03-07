@@ -17,9 +17,9 @@ import javax.ws.rs.core.Response;
 import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.smartbudget.domain.Point;
-import io.smartbudget.domain.entity.Budget;
-import io.smartbudget.domain.entity.Category;
-import io.smartbudget.domain.entity.User;
+import io.smartbudget.domain.dto.Budget;
+import io.smartbudget.domain.dto.Category;
+import io.smartbudget.domain.dto.User;
 import io.smartbudget.service.FinanceService;
 
 @Path(ResourceURL.CATEGORY)

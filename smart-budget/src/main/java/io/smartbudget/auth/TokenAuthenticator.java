@@ -5,7 +5,7 @@ import java.util.Optional;
 import io.dropwizard.auth.AuthenticationException;
 import io.dropwizard.auth.Authenticator;
 import io.dropwizard.hibernate.UnitOfWork;
-import io.smartbudget.domain.entity.User;
+import io.smartbudget.domain.dto.User;
 import io.smartbudget.service.FinanceService;
 
 public class TokenAuthenticator implements Authenticator<String, User> {

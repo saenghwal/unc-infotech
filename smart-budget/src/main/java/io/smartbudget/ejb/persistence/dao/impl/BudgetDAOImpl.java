@@ -11,9 +11,9 @@ import javax.ejb.Stateful;
 import javax.inject.Inject;
 
 import io.smartbudget.ejb.persistence.dao.BudgetDAO;
-import io.smartbudget.domain.entity.Budget;
-import io.smartbudget.domain.entity.User;
-import io.smartbudget.ejb.persistence.mappers.UserMapper;
+import io.smartbudget.domain.dto.Budget;
+import io.smartbudget.domain.dto.User;
+import io.smartbudget.ejb.persistence.mappers.UsersMapper;
 import io.smartbudget.util.Util;
 
 @Stateful
@@ -22,7 +22,7 @@ public class BudgetDAOImpl extends GenericDAOImpl<Budget, Long> implements Budge
     private static final Logger LOGGER = LoggerFactory.getLogger(io.smartbudget.hibernate.dao.BudgetDAO.class);
 
     @Inject
-    public BudgetDAOImpl(UserMapper mapper) {
+    public BudgetDAOImpl(UsersMapper mapper) {
         super(mapper);
     }
 

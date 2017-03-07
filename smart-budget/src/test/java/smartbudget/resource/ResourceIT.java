@@ -19,9 +19,9 @@ import javax.ws.rs.core.Response;
 
 
 import io.smartbudget.client.HTTPTokenClientFilter;
-import io.smartbudget.domain.entity.Budget;
-import io.smartbudget.domain.entity.Category;
-import io.smartbudget.domain.entity.User;
+import io.smartbudget.domain.dto.Budget;
+import io.smartbudget.domain.dto.Category;
+import io.smartbudget.domain.dto.User;
 import io.smartbudget.domain.enums.CategoryType;
 import io.smartbudget.form.SignUpForm;
 import io.smartbudget.form.budget.AddBudgetForm;

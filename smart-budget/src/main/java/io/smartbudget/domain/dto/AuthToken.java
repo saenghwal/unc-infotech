@@ -1,11 +1,12 @@
-package io.smartbudget.domain.entity;
+package io.smartbudget.domain.dto;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class BudgetType implements Serializable {
+public class AuthToken {
     private long id;
+    private String token;
     private Date createdAt;
+    private User user;
 
     public long getId() {
         return id;
@@ -13,6 +14,14 @@ public class BudgetType implements Serializable {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public Date getCreatedAt() {
@@ -28,9 +37,10 @@ public class BudgetType implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        BudgetType that = (BudgetType) o;
+        AuthToken that = (AuthToken) o;
 
         if (id != that.id) return false;
+        if (token != null ? !token.equals(that.token) : that.token != null) return false;
         if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null)
             return false;
 
@@ -40,7 +50,16 @@ public class BudgetType implements Serializable {
     @Override
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (token != null ? token.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         return result;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

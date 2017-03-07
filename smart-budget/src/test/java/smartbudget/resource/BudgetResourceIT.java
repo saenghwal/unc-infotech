@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import io.smartbudget.application.BudgetApplication;
 import io.smartbudget.configuration.AppConfiguration;
-import io.smartbudget.domain.entity.Budget;
+import io.smartbudget.domain.dto.Budget;
 import io.smartbudget.form.TransactionForm;
 import io.smartbudget.form.budget.AddBudgetForm;
 import io.smartbudget.form.budget.UpdateBudgetForm;

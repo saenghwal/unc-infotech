@@ -23,7 +23,7 @@
         <typeAlias alias="" type ="" />
     </typeAliases>
     <mappers>
-        <mapper class="io.smartbudget.ejb.persistence.mappers.UserMapper"/>
+        <mapper class="io.smartbudget.ejb.persistence.mappers.UsersMapper"/>
         <mapper class="io.smartbudget.ejb.persistence.mappers.BudgetMapper"/>
         <mapper resource="" class=""/>
     </mappers>

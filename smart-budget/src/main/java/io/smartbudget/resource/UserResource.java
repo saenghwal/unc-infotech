@@ -18,7 +18,7 @@ import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.smartbudget.domain.AccountSummary;
 import io.smartbudget.domain.UsageSummary;
-import io.smartbudget.domain.entity.User;
+import io.smartbudget.domain.dto.User;
 import io.smartbudget.form.LoginForm;
 import io.smartbudget.form.SignUpForm;
 import io.smartbudget.form.user.Password;
