@@ -51,11 +51,9 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
         return user;
     }
 
-    public User add(SignUpForm signUp) {
-        LOGGER.debug("Add new user {}", signUp);
-        User user = new User();
-        user.setUsername(signUp.getUsername());
-        user.setPassword(signUp.getPassword());
+    @Override
+    public User addUser(User user) {
+        LOGGER.debug("Add new user {}", user);
         try (SqlSession session = sessionFactory.openSession()) {
             session.insert("User.addUser", user);
             //or

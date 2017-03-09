@@ -8,7 +8,7 @@ import io.smartbudget.form.SignUpForm;
 
 public interface UsersMapper extends GenericMapper<User, Long> {
 
-    void addUser(SignUpForm signUp);
+    void addUser(User user);
 
     User findById(Long userId);
 

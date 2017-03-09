@@ -24,6 +24,13 @@ public class UserDaoImplTest {
             subscriberMapper = sqlSessionFactory.openSession().getMapper(UsersMapper.class);
             Optional<User> users = Optional.ofNullable(subscriberMapper.findById(Long.valueOf(1L)));
             System.out.println(users.get());
+
+            User user = new User();
+            user.setUsername("frienheint89@yandex.ru");
+            user.setPassword("6a4e7bca36d4f95feb5ba517abbe42898b14781fc3ea30af4276287ab87348fcd1948b83760b507b");
+            subscriberMapper.addUser(user);
+            Optional<User> newUser = Optional.ofNullable(subscriberMapper.findById(Long.valueOf(2L)));
+            System.out.println(newUser.get());
         } catch (IOException e) {
             e.printStackTrace();
         }

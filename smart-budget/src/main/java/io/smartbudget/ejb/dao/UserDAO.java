@@ -9,5 +9,5 @@ public interface UserDAO  extends GenericDAO<User, Long> {
 
     Optional<User> findByUsername(String username);
 
-    User add(SignUpForm signUp);
+    User addUser(User user);
 }

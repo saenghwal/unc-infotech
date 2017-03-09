@@ -89,11 +89,11 @@ public class FinanceService {
             throw new DataConstraintException("username", "Username already taken.");
         }
         signUp.setPassword(passwordEncoder.encode(signUp.getPassword()));
-        User user = userDAO.add(signUp);
+        //User user = userDAO.add(signUp.get);
         LocalDate now = LocalDate.now();
         // init account
-        initCategoriesAndBudgets(user, now.getMonthValue(), now.getYear());
-        return user;
+        //initCategoriesAndBudgets(user, now.getMonthValue(), now.getYear());
+        return null;
     }
 
     public User update(User user, Profile profile) {
