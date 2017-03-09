@@ -8,7 +8,6 @@ import io.smartbudget.persistence.mappers.GenericMapper;
 
 public abstract class GenericDAOImpl<T, ID extends Serializable> implements GenericDAO<T, ID> {
 
-    //@PersistenceContext(unitName="DEVMODE")
     protected GenericMapper mapper;
 
     public GenericDAOImpl(GenericMapper mapper) {

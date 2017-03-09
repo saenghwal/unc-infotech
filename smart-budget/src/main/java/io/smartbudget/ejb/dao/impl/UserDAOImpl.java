@@ -27,12 +27,12 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
 
+    private SqlSession session;
     private SqlSessionFactory sessionFactory;
 
-    public UserDAOImpl(UsersMapper mapper, SqlSessionFactory sessionFactory) {
+    public UserDAOImpl(UsersMapper mapper) {
         super(mapper);
-        this.sessionFactory = sessionFactory;
-        this.mapper = sessionFactory.openSession().getMapper(UsersMapper.class);
+        //this.mapper = sqlSessionFactory.openSession().getMapper(UsersMapper.class);
     }
 
     public UserDAOImpl(SqlSessionFactory sessionFactory) {
@@ -54,32 +54,33 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
     @Override
     public User addUser(User user) {
         LOGGER.debug("Add new user {}", user);
-        try (SqlSession session = sessionFactory.openSession()) {
-            session.insert("User.addUser", user);
+        ((UsersMapper) mapper).addUser(user);
+
+        //try (SqlSessionFactory session = sessionFactory.openSession()) {
+            //session.insert("User.addUser", user);
             //or
-            //UsersMapper users = session.getMapper(UsersMapper.class);
-            //users.addUser(signUp);
-        }
+
+        //}
         return user;
     }
 
     public void update(User user) {
         LOGGER.debug("Update user {}", user);
-        SqlSession session = sessionFactory.openSession();
-        session.update("User.update",user);
+        //SqlSession session = sessionFactory.openSession();
+        //session.update("User.update",user);
     }
 
 
     @Override
     public Optional<User> findByUsername(String username) {
-        SqlSession session = sessionFactory.openSession();
-        List<User> users = session.selectList("User.findByUsername", username);
-        if(users.size() == 1) {
-            return Optional.of(users.get(0));
-        } else {
-            return Optional.empty();
-        }
-        //return ((UsersMapper) mapper).findByUserName(username);
+//        SqlSession session = sessionFactory.openSession();
+//        List<User> users = session.selectList("User.findByUsername", username);
+//        if(users.size() == 1) {
+//            return Optional.of(users.get(0));
+//        } else {
+//            return Optional.empty();
+//        }
+        return ((UsersMapper) mapper).findByUserName(username);
     }
 
     @PostConstruct
