@@ -4,8 +4,6 @@ import com.bazaarvoice.dropwizard.assets.ConfiguredAssetsBundle;
 import com.loginbox.dropwizard.mybatis.MybatisBundle;
 
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
-import org.tuckey.web.filters.urlrewrite.UrlRewriteFilter;
 
 import java.util.EnumSet;
 
@@ -25,6 +23,7 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.smartbudget.configuration.AppConfiguration;
 import io.smartbudget.crypto.PasswordEncoder;
+import io.smartbudget.hibernate.dao.CategoryDAO;
 import io.smartbudget.persistence.entity.User;
 import io.smartbudget.ejb.dao.impl.UserDAOImpl;
 import io.smartbudget.exception.ConstraintViolationExceptionMapper;
@@ -45,23 +44,6 @@ public class BudgetApplication extends Application<AppConfiguration> {
     public static void main(String[] args) throws Exception {
         new BudgetApplication().run(args);
     }
-
-//    private final HibernateBundle<AppConfiguration> hibernate = new HibernateBundle<AppConfiguration>(User.class, Category.class, Budget.class, BudgetType.class, Transaction.class, Recurring.class, AuthToken.class) {
-//
-////        @Override
-////        protected Hibernate5Module createHibernate5Module() {
-////            Hibernate5Module module = super.createHibernate5Module();
-////            // allow @Transient JPA annotation process by Jackson
-////            module.disable(Hibernate5Module.Feature.FORCE_LAZY_LOADING);
-////            module.disable(Hibernate5Module.Feature.USE_TRANSIENT_ANNOTATION);
-////            return module;
-////        }
-//
-//        @Override
-//        public DataSourceFactory getDataSourceFactory(AppConfiguration configuration) {
-//            return configuration.getDataSourceFactory();
-//        }
-//    };
 
     private final MybatisBundle<AppConfiguration> mybatisBundle
             = new MybatisBundle<AppConfiguration>("io.smartbudget") {
@@ -106,7 +88,7 @@ public class BudgetApplication extends Application<AppConfiguration> {
         final PasswordEncoder passwordEncoder = new PasswordEncoder();
 
         // DAO
-        //final CategoryDAO categoryDAO = new CategoryDAO(hibernate.getSessionFactory(), configuration);
+        final CategoryDAO categoryDAO = new CategoryDAO(hibernate.getSessionFactory(), configuration);
         //final BudgetDAO budgetDAO = new BudgetDAO(hibernate.getSessionFactory(), configuration);
         //final BudgetTypeDAO budgetTypeDAO = new BudgetTypeDAO(hibernate.getSessionFactory());
         //final io.smartbudget.hibernate.dao.UserDAO userDAO = new io.smartbudget.hibernate.dao.UserDAO(hibernate.getSessionFactory(), configuration);
@@ -130,35 +112,9 @@ public class BudgetApplication extends Application<AppConfiguration> {
         environment.jersey().register(new RecurringResource(financeService));
         environment.jersey().register(new ReportResource(financeService));
 
-        // health check
-        environment.jersey().register(new HealthCheckResource(environment.healthChecks()));
-
-
         // managed
         environment.lifecycle().manage(new MigrationManaged(configuration));
         //environment.lifecycle().manage(new JobsManaged(recurringJob));
-
-        // auth
-        //TokenAuthenticator tokenAuthenticator = new UnitOfWorkAwareProxyFactory(hibernate).create(TokenAuthenticator.class, FinanceService.class, financeService);
-        final OAuthCredentialAuthFilter<User> authFilter =
-                new OAuthCredentialAuthFilter.Builder<User>()
-                        .setAuthenticator(new TokenAuthenticator(financeService))
-                        .setPrefix("Bearer")
-                        .setAuthorizer(new DefaultAuthorizer())
-                        .setUnauthorizedHandler(new DefaultUnauthorizedHandler())
-                        .buildAuthFilter();
-        environment.jersey().register(RolesAllowedDynamicFeature.class);
-        environment.jersey().register(new AuthDynamicFeature(authFilter));
-        environment.jersey().register(new AuthValueFactoryProvider.Binder(User.class));
-
-        // filters
-        FilterRegistration.Dynamic urlRewriteFilter = environment.servlets().addFilter("rewriteFilter", UrlRewriteFilter.class);
-        urlRewriteFilter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD), false, "/*");
-        urlRewriteFilter.setInitParameter("confPath", "urlrewrite.xml");
-
-        // only enable for dev
-        // FilterRegistration.Dynamic filterSlow = environment.servlets().addFilter("slowFilter", SlowNetworkFilter.class);
-        // filterSlow.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD), false, "/*");
 
         // exception mapper
         environment.jersey().register(new NotFoundExceptionMapper());

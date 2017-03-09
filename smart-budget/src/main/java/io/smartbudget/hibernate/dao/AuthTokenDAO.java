@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import io.smartbudget.persistence.entity.AuthToken;
 import io.smartbudget.persistence.entity.User;
 import io.dropwizard.hibernate.AbstractDAO;
 
