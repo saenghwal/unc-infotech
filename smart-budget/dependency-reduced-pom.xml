@@ -47,7 +47,7 @@
               <transformers>
                 <transformer />
                 <transformer>
-                  <mainClass>io.smartbudget.BudgetApplication</mainClass>
+                  <mainClass>io.smartbudget.application.BudgetApplication</mainClass>
                 </transformer>
               </transformers>
             </configuration>

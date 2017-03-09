@@ -22,21 +22,6 @@
       </column>
     </createTable>
 
-    <createTable tableName="auth_tokens">
-      <column name="id" type="bigint" autoIncrement="true" startWith="1">
-        <constraints primaryKey="true" nullable="false" />
-      </column>
-      <column name="token" type="varchar(256)">
-        <constraints nullable="false" unique="true" />
-      </column>
-      <column name="created_at" type="datetime" defaultValueDate="current_timestamp">
-        <constraints nullable="false" />
-      </column>
-      <column name="user_id" type="bigint">
-        <constraints nullable="false" />
-      </column>
-    </createTable>
-
     <createTable tableName="budgets">
       <column name="id" type="bigint" autoIncrement="true" startWith="1">
         <constraints primaryKey="true" nullable="false" />
@@ -63,15 +48,6 @@
         <constraints nullable="false" />
       </column>
       <column name="type_id" type="bigint">
-        <constraints nullable="false" />
-      </column>
-    </createTable>
-
-    <createTable tableName="budget_types">
-      <column name="id" type="bigint" autoIncrement="true" startWith="1">
-        <constraints primaryKey="true" nullable="false" />
-      </column>
-      <column name="created_at" type="datetime" defaultValueDate="current_timestamp">
         <constraints nullable="false" />
       </column>
     </createTable>
@@ -136,14 +112,10 @@
       <column name="created_at" type="datetime" defaultValueDate="current_timestamp">
         <constraints nullable="false" />
       </column>
-      <column name="budget_type_id" type="bigint">
+      <column name="budget_id" type="bigint">
         <constraints nullable="false" />
       </column>
     </createTable>
-
-    <addForeignKeyConstraint baseTableName="auth_tokens" baseColumnNames="user_id" constraintName="fk_auth_tokens_users"
-                             referencedTableName="users"
-                             referencedColumnNames="id" />
 
     <addForeignKeyConstraint baseTableName="categories" baseColumnNames="user_id" constraintName="fk_categories_users"
                              referencedTableName="users"
@@ -158,11 +130,6 @@
                              referencedTableName="categories"
                              referencedColumnNames="id" />
 
-    <addForeignKeyConstraint baseTableName="budgets" baseColumnNames="type_id"
-                             constraintName="fk_budgets_types"
-                             referencedTableName="budget_types"
-                             referencedColumnNames="id" />
-
     <addForeignKeyConstraint baseTableName="transactions" baseColumnNames="budget_id"
                              constraintName="fk_transactions_budgets"
                              referencedTableName="budgets"
@@ -175,8 +142,8 @@
                              referencedColumnNames="id" />
 
     <addForeignKeyConstraint baseTableName="recurrings" baseColumnNames="budget_type_id"
-                             constraintName="fk_recurrngs_budget_types"
-                             referencedTableName="budget_types"
+                             constraintName="fk_recurrnigs_budget_types"
+                             referencedTableName="budgets"
                              referencedColumnNames="id" />
   </changeSet>
 </databaseChangeLog>

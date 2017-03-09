@@ -1,0 +1,80 @@
+<section class="content-header">
+  <h2>Manage Recurring</h2>
+</section>
+
+<section class="content">
+  <div class="row">
+    <div class="col-lg-10 col-lg-offset-1">
+      <section ng-include src="'/app/partials/message.html'"></section>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <div class="box box-primary">
+        <div class="box-header">
+          <h3 class="box-title">Add Recurring</h3>
+        </div>
+        <div class="box-body">
+          <form name="form" novalidate role="form" class="form-horizontal">
+            <div class="form-group has-feedback" ng-class="errorClass('budgetId')">
+              <label for="budgetId" class="col-sm-3 control-label">Budget</label>
+              <div class="col-sm-7">
+                <div class="form-control-static" ng-hide="loaded">
+                  <div class="loading"></div>
+                </div>
+                <select class="form-control" id="budgetId" name="budgetId" ng-model="recurring.budget" ng-show="loaded" ng-options="budget.name for budget in budgets"></select>
+                <span class="help-block" ng-show="form.budgetId.$invalid && form.budgetId.$dirty">
+                  {{errorMessage('budgetId')}}
+                </span>
+              </div>
+            </div>
+            <div class="form-group has-feedback" ng-class="errorClass('amount')">
+              <label for="amount" class="col-sm-3 control-label">Amount</label>
+              <div class="col-sm-7">
+                <input type="number" step="1" class="form-control" id="amount" name="amount" placeholder="Enter Amount" ng-model="recurring.amount">
+                <span class="help-block" ng-show="form.amount.$invalid && form.amount.$dirty">
+                  {{errorMessage('amount')}}
+                </span>
+              </div>
+            </div>
+            <div class="form-group has-feedback"  ng-class="errorClass('recurringAt')">
+              <label for="recurringAt" class="col-sm-3 control-label">Recurring Date</label>
+              <div class="col-sm-7">
+                <input type="date" id="recurringAt" name="recurringAt" class="form-control" placeholder="Enter Recurring Date (yyyy-mm-dd)" ng-model-options="{ timezone: 'UTC' }" ng-model="recurring.recurringAt" />
+                <span class="help-block" ng-show="form.recurringAt.$invalid && form.recurringAt.$dirty">
+                  {{errorMessage('recurringAt')}}
+                </span>
+              </div>
+            </div>
+            <div class="form-group has-feedback"  ng-class="errorClass('recurringType')">
+              <label for="recurringType" class="col-sm-3 control-label">Recurring Type</label>
+              <div class="col-sm-7">
+                <select id="recurringType" name="recurringType" class="form-control" ng-model="recurring.recurringType">
+                  <option value="DAILY">Daily</option>
+                  <option value="WEEKLY">Weekly</option>
+                  <option value="MONTHLY">Monthly</option>
+                  <option value="YEARLY">Yearly</option>
+                </select>
+                <span class="help-block" ng-show="form.recurringType.$invalid && form.recurringType.$dirty">
+                  {{errorMessage('recurringType')}}
+                </span>
+              </div>
+            </div>
+            <div class="form-group has-feedback">
+              <label for="remark" class="col-sm-3 control-label">Remark</label>
+              <div class="col-sm-7">
+                <textarea id="remark" name="remark" class="form-control" ng-model="recurring.remark" rows="3" placeholder="Enter Remark"></textarea>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-3 col-sm-7">
+                <a class="btn btn-default" href="/recurrings">Back</a>
+                <button type="submit" class="btn btn-primary" ng-click="createRecurring()"><span class="fa fa-save"></span> Submit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

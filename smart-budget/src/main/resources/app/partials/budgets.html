@@ -1,0 +1,63 @@
+<section class="content-header">
+  <h2>Manage Budget</h2>
+</section>
+
+<section class="content">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="row">
+        <div class="col-sm-3">
+          <input class="form-control" type="text" placeholder="Search budgets..." ng-model="filter"/>
+        </div>
+        <div class="col-sm-9">
+          <div class="pull-right">
+            <a href="/budgets/new" class="btn btn-primary"><span class="fa fa-plus"></span> Add Budget</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="space"></div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">Budgets</h3>
+        </div>
+        <div class="panel-body">
+          <div ng-hide="loaded" class="loading"></div>
+          <table foo-table class="table footable" ng-model="budgets" ng-show="budgets.length">
+            <thead>
+            <tr>
+              <th>Category</th>
+              <th>Name</th>
+              <th>Projected</th>
+              <th>Actual</th>
+              <th>Remaining</th>
+              <th>Period</th>
+              <th class="actions" data-sort-ignore="true">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="budget in budgets | filter: filter">
+              <td>{{budget.category.name}}</td>
+              <td>{{budget.name}}</td>
+              <td>{{budget.projected | safeCurrency : $root.user.currency}}</td>
+              <td>{{budget.actual | safeCurrency : $root.user.currency}}</td>
+              <td>{{(budget.projected - budget.actual) | safeCurrency : $root.user.currency }}</td>
+              <td>{{budget.period | yearMonth}}</td>
+              <td class="actions">
+                <button type="button" class="btn btn-danger" ng-click="confirmDelete(budget)"><span class="fa fa-trash-o"></span> Delete</button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

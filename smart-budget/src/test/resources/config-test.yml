@@ -16,8 +16,8 @@ database:
   # any properties specific to JDBC driver:
   properties:
     charSet: UTF-8
-    hibernate.dialect: io.smartbudget.hibernate.dialect.CustomHSQLDialect
-    hibernate.format_sql: true
+    # hibernate.dialect: io.smartbudget.hibernate.dialect.CustomHSQLDialect
+    # hibernate.format_sql: true
 
   validationQuery: SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS
 
@@ -36,7 +36,7 @@ logging:
     # Sets the level for 'io.smartbudget' to DEBUG.
     io.smartbudget: DEBUG
 
-    org.hibernate.SQL: ALL
+    # org.hibernate.SQL: ALL
 
   appenders:
     - type: console

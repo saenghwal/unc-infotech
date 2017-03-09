@@ -3,7 +3,7 @@ package io.smartbudget.hibernate.dao;
 import org.hibernate.SessionFactory;
 
 import io.dropwizard.hibernate.AbstractDAO;
-import io.smartbudget.domain.dto.BudgetType;
+import io.smartbudget.persistence.entity.BudgetType;
 
 public class BudgetTypeDAO extends AbstractDAO<BudgetType> {
 

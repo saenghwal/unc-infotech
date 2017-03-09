@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import io.dropwizard.hibernate.AbstractDAO;
 import io.smartbudget.configuration.AppConfiguration;
-import io.smartbudget.domain.dto.User;
+import io.smartbudget.persistence.entity.User;
 import io.smartbudget.exception.NotFoundException;
 import io.smartbudget.form.SignUpForm;
 

@@ -1,0 +1,223 @@
+<section class="content-header">
+  <h2>Manage Budget</h2>
+</section>
+
+<section class="content">
+  <script type="text/ng-template" id="budgetModal.html">
+    <div class="modal-header">
+      <h3 class="modal-title">Edit: {{selected.name}}</h3>
+    </div>
+    <form name="updateBudgetForm" novalidate class="form-horizontal" role="form">
+      <div class="modal-body">
+        <div class="form-group" ng-class="{true: 'has-error'}[updateBudgetForm.name.$dirty && updateBudgetForm.name.$invalid]">
+          <label for="name" class="col-sm-3 control-label">Name</label>
+          <div class="col-sm-7">
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" ng-model="selected.name" required>
+          </div>
+        </div>
+        <div class="form-group" ng-class="{true: 'has-error'}[updateBudgetForm.projected.$dirty && updateBudgetForm.projected.$invalid]">
+          <label for="projected" class="col-sm-3 control-label">Projected</label>
+          <div class="col-sm-7">
+            <input type="number" step="1" min="0" ng-min="0" class="form-control" id="projected" name="projected" placeholder="Enter Projected Amount" ng-model="selected.projected">
+          </div>
+        </div>
+        <div class="form-group" ng-show="selected.category.type == 'INCOME'">
+          <label for="actual" class="col-sm-3 control-label">Actual</label>
+          <div class="col-sm-7">
+            <input type="number" step="1" min="0" ng-min="0" class="form-control" id="actual" name="actual" placeholder="Enter Actual Amount" ng-model="selected.actual">
+          </div>
+        </div>
+        <div class="form-group" ng-show="selected.category.type == 'EXPENDITURE'">
+          <label class="col-sm-3 control-label">Actual</label>
+          <div class="col-sm-7">
+            <p class="form-control-static">{{selected.actual | safeCurrency : $root.user.currency }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+        <button type="submit" class="btn btn-primary" ng-click="ok()" ng-disabled="updateBudgetForm.$invalid">
+          <span class="fa fa-save" ng-hide="selected.loading"></span><span class="fa fa-spinner fa-spin" ng-show="selected.loading"></span> Save</button>
+      </div>
+    </form>
+  </script>
+
+  <script type="text/ng-template" id="transactionModal.html">
+    <div class="modal-header">
+      <h3 class="modal-title">Add Transaction: {{selected.name}}</h3>
+    </div>
+    <form name="form" novalidate class="form-horizontal" role="form">
+      <div class="modal-body">
+        <div class="form-group has-feedback" ng-class="errorClass('amount')">
+          <label for="amount" class="col-sm-3 control-label">Amount</label>
+          <div class="col-sm-7">
+            <input type="number" step="1" class="form-control" id="amount" name="amount" placeholder="Enter Transaction Amount" autofocus ng-model="transaction.amount" required>
+            <span class="help-block" ng-show="form.amount.$invalid && form.amount.$dirty">
+              {{errorMessage('amount')}}
+            </span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="remark" class="col-sm-3 control-label">Remark</label>
+          <div class="col-sm-7">
+            <textarea class="form-control" id="remark" name="remark" rows="3" placeholder="Enter Remark" ng-model="transaction.remark"></textarea>
+          </div>
+        </div>
+        <div class="form-group has-feedback" ng-class="errorClass('transactionOn')">
+          <label for="transactionOn" class="col-sm-3 control-label">Transaction Date</label>
+          <div class="col-sm-7">
+            <input type="date" class="form-control" id="transactionOn" name="transactionOn" placeholder="Enter Transaction Date (yyyy-mm-dd)" ng-model-options="{ timezone: 'UTC' }" ng-model="transaction.transactionOn">
+            <span class="help-block" ng-show="form.transactionOn.$invalid && form.transactionOn.$dirty">
+              {{errorMessage('transactionOn')}}
+            </span>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-10 col-sm-offset-3">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" id="recurring" value="true" ng-model="transaction.recurring"> Recurring?
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group has-feedback"  ng-class="errorClass('recurringType')" ng-show="transaction.recurring">
+          <label for="recurringType" class="col-sm-3 control-label">Recurring Type</label>
+          <div class="col-sm-7">
+            <select id="recurringType" name="recurringType" class="form-control" ng-model="transaction.recurringType">
+              <option value="DAILY">Daily</option>
+              <option value="WEEKLY">Weekly</option>
+              <option value="MONTHLY">Monthly</option>
+              <option value="YEARLY">Yearly</option>
+            </select>
+            <span class="help-block" ng-show="form.recurringType.$invalid && form.recurringType.$dirty">
+              {{errorMessage('recurringType')}}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+        <button type="submit" class="btn btn-primary" ng-click="ok(form)" ng-disabled="transaction.loading">
+          <span class="fa fa-save" ng-hide="transaction.loading"></span><span class="fa fa-spinner fa-spin" ng-show="transaction.loading"></span> Submit
+        </button>
+      </div>
+    </form>
+  </script>
+
+  <section ng-include src="'/app/partials/todayRecurrings.html'"></section>
+
+  <section ng-include src="'/app/partials/usage.html'"></section>
+
+  <div class="row">
+    <div class="col-lg-12 calendar-nav">
+      <div class="previous">
+        <span class="fa fa-arrow-left"></span>
+      </div>
+      <div class="next">
+        <span class="fa fa-arrow-right"></span>
+      </div>
+      <div class="btn-group btn-group-justified">
+        <div class="btn-group" ng-repeat="group in groups">
+          <a href="/manage/{{group.path}}" class="btn btn-primary btn-lg" ng-class="{true: 'active'}[group.active]">{{group.display}} <sup ng-if="group.current"><span class="fa fa-star"></span></sup></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="space"></div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div ng-hide="loaded" class="loading"></div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 category-{{group.id}}" ng-repeat="group in summary.groups | filter: {type: 'INCOME'}">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <span ng-bind-html='group.name | icon | unsafe'></span>
+          </h3>
+        </div>
+        <div class="panel-body budgets income">
+          <ul class="list-unstyled list-budgets">
+            <li class="budget-header">
+              <span class="name">Name</span>
+              <div class="pull-right">
+                <div class="projected">Projected</div>
+                <div class="actual">Actual</div>
+              </div>
+              <div class="clearfix"></div>
+            </li>
+            <li class="budget" ng-repeat="budget in group.budgets">
+              <span class="fa fa-pencil icon-edit" title="Edit budget" ng-click="openBudgetModal(budget)"></span> <span class="name" ng-click="openBudgetModal(budget)">{{budget.name}}</span>
+              <div class="pull-right">
+                <div class="projected">{{budget.projected | safeCurrency : $root.user.currency}}</div>
+                <div class="actual">{{budget.actual | safeCurrency : $root.user.currency}}</div>
+              </div>
+            </li>
+            <li class="budget-footer">
+              <span class="total">Total: </span>
+              <div class="pull-right">
+                <div class="projected">{{group.projected | safeCurrency : $root.user.currency}}</div>
+                <div class="actual">{{group.actual | safeCurrency : $root.user.currency}}</div>
+              </div>
+              <div class="clearfix"></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div masonry load-images="false" reload-on-show>
+      <div class="masonry-brick col-xs-12 col-sm-12 col-md-12 col-lg-6 category-{{group.id}}" ng-repeat="group in summary.groups | filter: {type: 'EXPENDITURE'}">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              <span ng-bind-html='group.name | icon | unsafe'></span>
+            </h3>
+          </div>
+          <div class="panel-body budgets">
+            <ul class="list-unstyled list-budgets">
+              <li class="budget-header">
+                <span class="name">Name</span>
+                <div class="pull-right">
+                  <div class="projected">Projected</div>
+                  <div class="actual">Actual</div>
+                  <div class="remaining">Remaining</div>
+                </div>
+                <div class="clearfix"></div>
+              </li>
+              <li class="budget" ng-repeat="budget in group.budgets">
+                <span class="fa fa-pencil icon-edit" title="Edit budget" ng-click="openBudgetModal(budget)"></span> <span class="name" ng-click="openBudgetModal(budget)">{{budget.name}}</span>
+                <div class="pull-right">
+                  <div class="projected">{{budget.projected | safeCurrency : $root.user.currency}}</div>
+                  <div class="actual">{{budget.actual | safeCurrency : $root.user.currency}}</div>
+                  <div class="remaining" ng-class="{overspend: budget.remaining < 0}">
+                    {{budget.remaining | safeCurrency : $root.user.currency}}
+                  </div>
+                  <div class="actions">
+                    <span class="fa fa-plus-square-o icon-plus" ng-click="openTransactionModal(budget)" title="Add transaction"></span> <span class="fa fa-list-ul icon-list" ng-click="openTransactionsModal(budget)" title="View transactions"></span>
+                  </div>
+                </div>
+              </li>
+              <li class="budget-footer">
+                <span class="total">Total: </span>
+                <div class="pull-right">
+                  <div class="projected">{{group.projected | safeCurrency : $root.user.currency}}</div>
+                  <div class="actual">{{group.actual | safeCurrency : $root.user.currency }}</div>
+                  <div class="remaining" ng-class="{overspend: group.remaining < 0}">{{group.remaining | safeCurrency : $root.user.currency}}</div>
+                </div>
+                <div class="clearfix"></div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

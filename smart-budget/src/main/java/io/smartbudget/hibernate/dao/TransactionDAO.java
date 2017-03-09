@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Optional;
 
 import io.dropwizard.hibernate.AbstractDAO;
-import io.smartbudget.domain.dto.Transaction;
-import io.smartbudget.domain.dto.User;
+import io.smartbudget.persistence.entity.Transaction;
+import io.smartbudget.persistence.entity.User;
 import io.smartbudget.exception.NotFoundException;
 import io.smartbudget.form.report.SearchFilter;
 

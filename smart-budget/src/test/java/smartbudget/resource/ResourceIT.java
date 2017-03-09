@@ -19,9 +19,9 @@ import javax.ws.rs.core.Response;
 
 
 import io.smartbudget.client.HTTPTokenClientFilter;
-import io.smartbudget.domain.dto.Budget;
-import io.smartbudget.domain.dto.Category;
-import io.smartbudget.domain.dto.User;
+import io.smartbudget.persistence.entity.Budget;
+import io.smartbudget.persistence.entity.Category;
+import io.smartbudget.persistence.entity.User;
 import io.smartbudget.domain.enums.CategoryType;
 import io.smartbudget.form.SignUpForm;
 import io.smartbudget.form.budget.AddBudgetForm;
@@ -50,11 +50,12 @@ public abstract class ResourceIT {
         signUp.setPassword(randomAlphabets());
         post(ResourceURL.USER, signUp);
         Response authResponse = post("/api/users/auth", signUp);
-        defaultUser = authResponse.readEntity(User.class);
-        defaultUser.setUsername(signUp.getUsername());
-        defaultUser.setPassword(signUp.getPassword());
+        //defaultUser = authResponse.readEntity(User.class);
+        //defaultUser.setUsername(signUp.getUsername());
+        //defaultUser.setPassword(signUp.getPassword());
 
-        client.register(new HTTPTokenClientFilter(defaultUser.getToken()));
+        //client.register(new HTTPTokenClientFilter(defaultUser.getToken()));
+        client.register(new HTTPTokenClientFilter("d1cf1925-92d1-48e1-b173-47a305d6e21c"));
 
         defaultCategory = new Category();
         defaultCategory.setName(randomAlphabets());

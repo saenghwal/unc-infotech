@@ -1,7 +1,6 @@
 package io.smartbudget.application;
 
 import com.bazaarvoice.dropwizard.assets.ConfiguredAssetsBundle;
-import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.loginbox.dropwizard.mybatis.MybatisBundle;
 
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -21,8 +20,6 @@ import io.dropwizard.auth.oauth.OAuthCredentialAuthFilter;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.db.DataSourceFactory;
-import io.dropwizard.hibernate.HibernateBundle;
-import io.dropwizard.hibernate.UnitOfWorkAwareProxyFactory;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -30,27 +27,12 @@ import io.smartbudget.auth.DefaultAuthorizer;
 import io.smartbudget.auth.TokenAuthenticator;
 import io.smartbudget.configuration.AppConfiguration;
 import io.smartbudget.crypto.PasswordEncoder;
-import io.smartbudget.domain.job.RecurringJob;
-import io.smartbudget.domain.dto.AuthToken;
-import io.smartbudget.domain.dto.Budget;
-import io.smartbudget.domain.dto.BudgetType;
-import io.smartbudget.domain.dto.Category;
-import io.smartbudget.domain.dto.Recurring;
-import io.smartbudget.domain.dto.Transaction;
-import io.smartbudget.domain.dto.User;
-import io.smartbudget.ejb.persistence.dao.UserDAO;
-import io.smartbudget.ejb.persistence.dao.impl.UserDAOImpl;
+import io.smartbudget.persistence.entity.User;
+import io.smartbudget.ejb.dao.impl.UserDAOImpl;
 import io.smartbudget.exception.ConstraintViolationExceptionMapper;
 import io.smartbudget.exception.DataConstraintExceptionMapper;
 import io.smartbudget.exception.NotFoundExceptionMapper;
 import io.smartbudget.exception.SQLConstraintViolationExceptionMapper;
-import io.smartbudget.hibernate.dao.AuthTokenDAO;
-import io.smartbudget.hibernate.dao.BudgetDAO;
-import io.smartbudget.hibernate.dao.BudgetTypeDAO;
-import io.smartbudget.hibernate.dao.CategoryDAO;
-import io.smartbudget.hibernate.dao.RecurringDAO;
-import io.smartbudget.hibernate.dao.TransactionDAO;
-import io.smartbudget.managed.JobsManaged;
 import io.smartbudget.managed.MigrationManaged;
 import io.smartbudget.resource.BudgetResource;
 import io.smartbudget.resource.CategoryResource;
@@ -67,30 +49,30 @@ public class BudgetApplication extends Application<AppConfiguration> {
         new BudgetApplication().run(args);
     }
 
-    private final HibernateBundle<AppConfiguration> hibernate = new HibernateBundle<AppConfiguration>(User.class, Category.class, Budget.class, BudgetType.class, Transaction.class, Recurring.class, AuthToken.class) {
-
-        @Override
-        protected Hibernate5Module createHibernate5Module() {
-            Hibernate5Module module = super.createHibernate5Module();
-            // allow @Transient JPA annotation process by Jackson
-            module.disable(Hibernate5Module.Feature.FORCE_LAZY_LOADING);
-            module.disable(Hibernate5Module.Feature.USE_TRANSIENT_ANNOTATION);
-            return module;
-        }
-
-        @Override
-        public DataSourceFactory getDataSourceFactory(AppConfiguration configuration) {
-            return configuration.getDataSourceFactory();
-        }
-    };
-
-//    private final MybatisBundle<AppConfiguration> mybatisBundle
-//            = new MybatisBundle<AppConfiguration>("io.smartbudget.domain.dto") {
+//    private final HibernateBundle<AppConfiguration> hibernate = new HibernateBundle<AppConfiguration>(User.class, Category.class, Budget.class, BudgetType.class, Transaction.class, Recurring.class, AuthToken.class) {
+//
+////        @Override
+////        protected Hibernate5Module createHibernate5Module() {
+////            Hibernate5Module module = super.createHibernate5Module();
+////            // allow @Transient JPA annotation process by Jackson
+////            module.disable(Hibernate5Module.Feature.FORCE_LAZY_LOADING);
+////            module.disable(Hibernate5Module.Feature.USE_TRANSIENT_ANNOTATION);
+////            return module;
+////        }
+//
 //        @Override
 //        public DataSourceFactory getDataSourceFactory(AppConfiguration configuration) {
 //            return configuration.getDataSourceFactory();
 //        }
 //    };
+
+    private final MybatisBundle<AppConfiguration> mybatisBundle
+            = new MybatisBundle<AppConfiguration>("io.smartbudget") {
+        @Override
+        public DataSourceFactory getDataSourceFactory(AppConfiguration configuration) {
+            return configuration.getDataSourceFactory();
+        }
+    };
 
     @Override
     public String getName() {
@@ -115,35 +97,33 @@ public class BudgetApplication extends Application<AppConfiguration> {
         );
 
         bootstrap.addBundle(migrationBundle);
-        //bootstrap.addBundle(mybatisBundle);
-        bootstrap.addBundle(hibernate);
+        //bootstrap.addBundle(hibernate);
         bootstrap.addBundle(new ConfiguredAssetsBundle("/app", "/app", "index.html"));
     }
 
     @Override
     public void run(AppConfiguration configuration, Environment environment) {
-        //SqlSessionFactory sessionFactory = mybatisBundle.getSqlSessionFactory();
+        SqlSessionFactory sessionFactory = mybatisBundle.getSqlSessionFactory();
 
         // password encoder
         final PasswordEncoder passwordEncoder = new PasswordEncoder();
 
         // DAO
-        final CategoryDAO categoryDAO = new CategoryDAO(hibernate.getSessionFactory(), configuration);
-        final BudgetDAO budgetDAO = new BudgetDAO(hibernate.getSessionFactory(), configuration);
-        final BudgetTypeDAO budgetTypeDAO = new BudgetTypeDAO(hibernate.getSessionFactory());
-        final io.smartbudget.hibernate.dao.UserDAO userDAO = new io.smartbudget.hibernate.dao.UserDAO(hibernate.getSessionFactory(), configuration);
-        //final UserDAO userDAO = new UserDAOImpl(sessionFactory);
-        final TransactionDAO transactionDAO = new TransactionDAO(hibernate.getSessionFactory());
-        final RecurringDAO recurringDAO = new RecurringDAO(hibernate.getSessionFactory());
-        final AuthTokenDAO authTokenDAO = new AuthTokenDAO(hibernate.getSessionFactory());
+        //final CategoryDAO categoryDAO = new CategoryDAO(hibernate.getSessionFactory(), configuration);
+        //final BudgetDAO budgetDAO = new BudgetDAO(hibernate.getSessionFactory(), configuration);
+        //final BudgetTypeDAO budgetTypeDAO = new BudgetTypeDAO(hibernate.getSessionFactory());
+        //final io.smartbudget.hibernate.dao.UserDAO userDAO = new io.smartbudget.hibernate.dao.UserDAO(hibernate.getSessionFactory(), configuration);
+        final UserDAOImpl userDAO = new UserDAOImpl(sessionFactory);
+        //final TransactionDAO transactionDAO = new TransactionDAO(hibernate.getSessionFactory());
+        //final RecurringDAO recurringDAO = new RecurringDAO(hibernate.getSessionFactory());
+        //final AuthTokenDAO authTokenDAO = new AuthTokenDAO(hibernate.getSessionFactory());
 
         // service
-        final FinanceService financeService = new FinanceService(hibernate.getSessionFactory(),
-                userDAO, budgetDAO, budgetTypeDAO, categoryDAO, transactionDAO, recurringDAO,
-                authTokenDAO, passwordEncoder);
+        final FinanceService financeService = new FinanceService(sessionFactory,
+                userDAO, passwordEncoder);
 
         // jobs
-        final RecurringJob recurringJob = new UnitOfWorkAwareProxyFactory(hibernate).create(RecurringJob.class, FinanceService.class, financeService);
+        //final RecurringJob recurringJob = new UnitOfWorkAwareProxyFactory(hibernate).create(RecurringJob.class, FinanceService.class, financeService);
 
         // resource
         environment.jersey().register(new UserResource(financeService));
@@ -159,13 +139,13 @@ public class BudgetApplication extends Application<AppConfiguration> {
 
         // managed
         environment.lifecycle().manage(new MigrationManaged(configuration));
-        environment.lifecycle().manage(new JobsManaged(recurringJob));
+        //environment.lifecycle().manage(new JobsManaged(recurringJob));
 
         // auth
-        TokenAuthenticator tokenAuthenticator = new UnitOfWorkAwareProxyFactory(hibernate).create(TokenAuthenticator.class, FinanceService.class, financeService);
+        //TokenAuthenticator tokenAuthenticator = new UnitOfWorkAwareProxyFactory(hibernate).create(TokenAuthenticator.class, FinanceService.class, financeService);
         final OAuthCredentialAuthFilter<User> authFilter =
                 new OAuthCredentialAuthFilter.Builder<User>()
-                        .setAuthenticator(tokenAuthenticator)
+                        .setAuthenticator(new TokenAuthenticator(financeService))
                         .setPrefix("Bearer")
                         .setAuthorizer(new DefaultAuthorizer())
                         .setUnauthorizedHandler(new DefaultUnauthorizedHandler())

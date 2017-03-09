@@ -15,7 +15,7 @@
                 <property name="driver" value="org.postgres.Driver"/>
                 <property name="url" value="$jdbc:postgresql://localhost:5432/budget"/>
                 <property name="username" value="postgres"/>
-                <property name="password" value="postgres"/>
+                <property name="password" value="password"/>
             </dataSource>
         </environment>
     </environments>
@@ -23,8 +23,7 @@
         <typeAlias alias="" type ="" />
     </typeAliases>
     <mappers>
-        <mapper class="io.smartbudget.ejb.persistence.mappers.UsersMapper"/>
-        <mapper class="io.smartbudget.ejb.persistence.mappers.BudgetMapper"/>
-        <mapper resource="" class=""/>
+        <mapper class="io.smartbudget.persistence.mappers.UsersMapper"/>
+        <mapper class="io.smartbudget.persistence.mappers.BudgetMapper"/>
     </mappers>
 </configuration>

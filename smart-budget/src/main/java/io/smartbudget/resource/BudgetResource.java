@@ -17,9 +17,9 @@ import javax.ws.rs.core.Response;
 
 import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
-import io.smartbudget.domain.dto.Budget;
-import io.smartbudget.domain.dto.Transaction;
-import io.smartbudget.domain.dto.User;
+import io.smartbudget.persistence.entity.Budget;
+import io.smartbudget.persistence.entity.Transaction;
+import io.smartbudget.persistence.entity.User;
 import io.smartbudget.form.budget.AddBudgetForm;
 import io.smartbudget.form.budget.UpdateBudgetForm;
 import io.smartbudget.service.FinanceService;

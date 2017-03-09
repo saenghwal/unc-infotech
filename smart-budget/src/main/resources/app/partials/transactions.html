@@ -1,0 +1,36 @@
+<div class="modal-header">
+  <h3 class="modal-title">Transactions: {{selected.name}}</h3>
+</div>
+<div class="modal-body">
+  <div ng-hide="transactionsLoaded" class="loading"></div>
+  <div ng-hide="transactions.length || !transactionsLoaded" class="no-result">
+    <h2>No transaction</h2>
+  </div>
+  <table class="table" ng-show="transactions.length">
+    <thead>
+    <tr>
+      <th>Amount</th>
+      <th>Remark</th>
+      <th>Recurring?</th>
+      <th>Transaction Date</th>
+      <th ng-show="transactionAction">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="transaction in transactions">
+      <td ng-class="{true: 'overspend'}[transaction.amount < 0]">{{transaction.amount | safeCurrency : $root.user.currency}}</td>
+      <td><span title="{{transaction.remark | na }}">{{transaction.remark | na | truncate:true:50 }}</span></td>
+      <td>{{transaction.auto | tick}}</td>
+      <td>{{transaction.transactionOn | date}}</td>
+      <td ng-show="transactionAction">
+        <button type="button" class="btn btn-danger" ng-click="deleteTransaction(transactions, transaction)" ng-disabled="transaction.loading">
+          <span class="fa fa-trash-o" ng-hide="transaction.loading"></span><span class="fa fa-spinner fa-spin" ng-show="transaction.loading"></span> Delete
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" ng-click="cancel()">Close</button>
+</div>

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import io.smartbudget.domain.enums.CategoryType;
-import io.smartbudget.domain.dto.Budget;
+import io.smartbudget.persistence.entity.Budget;
 
 public class Group implements Serializable {
 

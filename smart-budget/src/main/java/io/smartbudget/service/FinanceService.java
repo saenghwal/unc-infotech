@@ -24,27 +24,26 @@ import java.util.stream.Collectors;
 import io.smartbudget.crypto.PasswordEncoder;
 
 import io.smartbudget.domain.AccountSummary;
-//import io.smartbudget.ejb.persistence.dao.UserDAO;
-import io.smartbudget.ejb.persistence.dao.UserDAO;
-import io.smartbudget.ejb.persistence.dao.impl.UserDAOImpl;
+//import UserDAO;
+import io.smartbudget.ejb.dao.impl.UserDAOImpl;
 import io.smartbudget.hibernate.dao.AuthTokenDAO;
 import io.smartbudget.hibernate.dao.BudgetDAO;
 import io.smartbudget.hibernate.dao.BudgetTypeDAO;
 import io.smartbudget.hibernate.dao.CategoryDAO;
 import io.smartbudget.hibernate.dao.RecurringDAO;
 import io.smartbudget.hibernate.dao.TransactionDAO;
-import io.smartbudget.domain.dto.AuthToken;
-import io.smartbudget.domain.dto.Budget;
-import io.smartbudget.domain.dto.BudgetType;
-import io.smartbudget.domain.dto.Category;
+import io.smartbudget.persistence.entity.AuthToken;
+import io.smartbudget.persistence.entity.Budget;
+import io.smartbudget.persistence.entity.BudgetType;
+import io.smartbudget.persistence.entity.Category;
 import io.smartbudget.domain.enums.*;
 import io.smartbudget.domain.Group;
 import io.smartbudget.domain.Point;
 import io.smartbudget.domain.PointType;
-import io.smartbudget.domain.dto.Recurring;
-import io.smartbudget.domain.dto.Transaction;
+import io.smartbudget.persistence.entity.Recurring;
+import io.smartbudget.persistence.entity.Transaction;
 import io.smartbudget.domain.UsageSummary;
-import io.smartbudget.domain.dto.User;
+import io.smartbudget.persistence.entity.User;
 import io.smartbudget.exception.DataConstraintException;
 import io.smartbudget.form.LoginForm;
 import io.smartbudget.form.SignUpForm;
@@ -65,6 +64,7 @@ public class FinanceService {
     private SessionFactory hibernateSession = null;
     private SqlSessionFactory mybatisSession = null;
     private final io.smartbudget.hibernate.dao.UserDAO userDAO;
+    private final UserDAOImpl mybatisUserDAO;
     private final BudgetDAO budgetDAO;
     private final BudgetTypeDAO budgetTypeDAO;
     private final CategoryDAO categoryDAO;
@@ -74,23 +74,22 @@ public class FinanceService {
 
     private final PasswordEncoder passwordEncoder;
 
-//    public FinanceService(SqlSessionFactory sessionFactory, UserDAO userDAO, BudgetDAO budgetDAO,
-//                          BudgetTypeDAO budgetTypeDAO, CategoryDAO categoryDAO,
-//                          TransactionDAO transactionDAO, RecurringDAO recurringDAO,
-//                          AuthTokenDAO authTokenDAO, PasswordEncoder passwordEncoder) {
-//
-//        this.mybatisSession = sessionFactory;
-//
-//        this.userDAO = userDAO;
-//        this.budgetDAO = budgetDAO;
-//        this.budgetTypeDAO = budgetTypeDAO;
-//        this.categoryDAO = categoryDAO;
-//        this.transactionDAO = transactionDAO;
-//        this.recurringDAO = recurringDAO;
-//        this.authTokenDAO = authTokenDAO;
-//
-//        this.passwordEncoder = passwordEncoder;
-//    }
+    public FinanceService(SqlSessionFactory sessionFactory, UserDAOImpl userDAO,
+                          PasswordEncoder passwordEncoder) {
+
+        this.mybatisSession = sessionFactory;
+
+        this.mybatisUserDAO = userDAO;
+        this.budgetDAO = null;
+        this.budgetTypeDAO = null;
+        this.categoryDAO = null;
+        this.transactionDAO = null;
+        this.recurringDAO = null;
+        this.authTokenDAO = null;
+
+        this.passwordEncoder = passwordEncoder;
+        this.userDAO = null;
+    }
 
     public FinanceService(SessionFactory sessionFactory, io.smartbudget.hibernate.dao.UserDAO userDAO, BudgetDAO budgetDAO,
                           BudgetTypeDAO budgetTypeDAO, CategoryDAO categoryDAO,
@@ -107,6 +106,8 @@ public class FinanceService {
         this.authTokenDAO = authTokenDAO;
 
         this.passwordEncoder = passwordEncoder;
+        this.mybatisUserDAO = null;
+
     }
 
     public SessionFactory getHibernateSession() {
