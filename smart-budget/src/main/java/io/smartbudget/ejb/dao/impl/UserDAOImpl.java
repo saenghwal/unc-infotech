@@ -5,9 +5,13 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Optional;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.Local;
+import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -17,7 +21,7 @@ import io.smartbudget.persistence.mappers.UsersMapper;
 import io.smartbudget.exception.NotFoundException;
 import io.smartbudget.form.SignUpForm;
 
-@Stateless
+@Stateful
 @Local
 public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
 
@@ -25,10 +29,10 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
 
     private SqlSessionFactory sessionFactory;
 
-    @Inject
     public UserDAOImpl(UsersMapper mapper, SqlSessionFactory sessionFactory) {
         super(mapper);
         this.sessionFactory = sessionFactory;
+        this.mapper = sessionFactory.openSession().getMapper(UsersMapper.class);
     }
 
     public UserDAOImpl(SqlSessionFactory sessionFactory) {
@@ -36,22 +40,6 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
     }
 
     public UserDAOImpl() {
-    }
-
-    public User add(SignUpForm signUp) {
-        LOGGER.debug("Add new user {}", signUp);
-        User user = new User();
-        user.setUsername(signUp.getUsername());
-        user.setPassword(signUp.getPassword());
-        try (SqlSession session = sessionFactory.openSession()) {
-            UsersMapper users = session.getMapper(UsersMapper.class);
-            users.addUser(signUp);
-        }
-        return user;
-    }
-    @Override
-    public Optional<User> findByUsername(String username) {
-        return ((UsersMapper) mapper).findByUserName(username);
     }
 
     @Override
@@ -62,4 +50,51 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
         }
         return user;
     }
+
+    public User add(SignUpForm signUp) {
+        LOGGER.debug("Add new user {}", signUp);
+        User user = new User();
+        user.setUsername(signUp.getUsername());
+        user.setPassword(signUp.getPassword());
+        try (SqlSession session = sessionFactory.openSession()) {
+            session.insert("User.addUser", user);
+            //or
+            //UsersMapper users = session.getMapper(UsersMapper.class);
+            //users.addUser(signUp);
+        }
+        return user;
+    }
+
+    public void update(User user) {
+        LOGGER.debug("Update user {}", user);
+        SqlSession session = sessionFactory.openSession();
+        session.update("User.update",user);
+    }
+
+
+    @Override
+    public Optional<User> findByUsername(String username) {
+        SqlSession session = sessionFactory.openSession();
+        List<User> users = session.selectList("User.findByUsername", username);
+        if(users.size() == 1) {
+            return Optional.of(users.get(0));
+        } else {
+            return Optional.empty();
+        }
+        //return ((UsersMapper) mapper).findByUserName(username);
+    }
+
+    @PostConstruct
+    public void initialize() {
+        // Initialize here objects which will be used
+        // by the session bean
+        LOGGER.debug("UserDAOImpl initialized.");
+    }
+
+    @PreDestroy
+    public void destroyBean() {
+        // Free here session bean resources
+        LOGGER.debug("UserDAOImpl destroyed.");
+    }
+
 }

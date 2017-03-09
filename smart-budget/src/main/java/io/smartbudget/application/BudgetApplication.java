@@ -88,7 +88,7 @@ public class BudgetApplication extends Application<AppConfiguration> {
         final PasswordEncoder passwordEncoder = new PasswordEncoder();
 
         // DAO
-        final CategoryDAO categoryDAO = new CategoryDAO(hibernate.getSessionFactory(), configuration);
+        //final CategoryDAO categoryDAO = new CategoryDAO(hibernate.getSessionFactory(), configuration);
         //final BudgetDAO budgetDAO = new BudgetDAO(hibernate.getSessionFactory(), configuration);
         //final BudgetTypeDAO budgetTypeDAO = new BudgetTypeDAO(hibernate.getSessionFactory());
         //final io.smartbudget.hibernate.dao.UserDAO userDAO = new io.smartbudget.hibernate.dao.UserDAO(hibernate.getSessionFactory(), configuration);
@@ -98,19 +98,19 @@ public class BudgetApplication extends Application<AppConfiguration> {
         //final AuthTokenDAO authTokenDAO = new AuthTokenDAO(hibernate.getSessionFactory());
 
         // service
-        final FinanceService financeService = new FinanceService(sessionFactory,
-                userDAO, passwordEncoder);
+//        final FinanceService financeService = new FinanceService(sessionFactory,
+//                userDAO, passwordEncoder);
 
         // jobs
         //final RecurringJob recurringJob = new UnitOfWorkAwareProxyFactory(hibernate).create(RecurringJob.class, FinanceService.class, financeService);
 
         // resource
-        environment.jersey().register(new UserResource(financeService));
-        environment.jersey().register(new CategoryResource(financeService));
-        environment.jersey().register(new BudgetResource(financeService));
-        environment.jersey().register(new TransactionResource(financeService));
-        environment.jersey().register(new RecurringResource(financeService));
-        environment.jersey().register(new ReportResource(financeService));
+        //environment.jersey().register(new UserResource(financeService));
+//        environment.jersey().register(new CategoryResource(financeService));
+//        environment.jersey().register(new BudgetResource(financeService));
+//        environment.jersey().register(new TransactionResource(financeService));
+//        environment.jersey().register(new RecurringResource(financeService));
+//        environment.jersey().register(new ReportResource(financeService));
 
         // managed
         environment.lifecycle().manage(new MigrationManaged(configuration));

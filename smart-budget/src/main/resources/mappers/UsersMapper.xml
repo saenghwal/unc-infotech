@@ -4,7 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="io.smartbudget.persistence.mappers.UsersMapper">
-    <resultMap id="userResult" type="io.smartbudget.persistence.entity.User">
+
+    <resultMap id="user" type="io.smartbudget.persistence.entity.User">
         <id property="id" column="id"/>
         <result property="username" column="username"/>
         <result property="password" column="password"/>
@@ -13,16 +14,30 @@
         <result property="currency" column="currency"/>
     </resultMap>
 
-    <select id="findById" parameterType="java.lang.Integer" resultMap="userResult">
-        SELECT * FROM users WHERE id = #{id}
-    </select>
-
-    <insert id="add" parameterType="SignUpForm" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO users (USERNAME, PASSWORD)
-        VALUES (#{username}, #{password})
+    <insert id="addUser" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+        insert into users (username, password)
+        values (#{username}, #{password});
     </insert>
 
-    <select id="findByUsername" resultMap="userResult">
-        SELECT * FROM USERS WHERE USERNAME = #{username}
+    <update id="update" parameterType = "User">
+        update users
+         <!--SET name = #{name}, currency = #{currency}-->
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="currency != null">
+                currency = #{currency},
+            </if>
+        </set>
+        where id = #{id};
+    </update>
+
+    <select id="findById" parameterType="java.lang.Long" resultMap="user">
+        select * from users where id = #{id};
+    </select>
+
+    <select id="findByUsername" parameterType="java.lang.String" resultMap="user">
+        select * from users where username = #{username};
     </select>
 </mapper>
