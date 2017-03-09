@@ -15,7 +15,7 @@ public class Recurring implements Serializable {
     private RecurringType recurringType;
     private Date lastRunAt;
     private Date createdAt;
-    private BudgetType budgetType;
+    private Budget budgetType;
     private String remark;
     private List<Transaction> transactions;
 
@@ -111,11 +111,11 @@ public class Recurring implements Serializable {
         return result;
     }
 
-    public BudgetType getBudgetType() {
+    public Budget getBudgetType() {
         return budgetType;
     }
 
-    public void setBudgetType(BudgetType budgetType) {
+    public void setBudgetType(Budget budgetType) {
         this.budgetType = budgetType;
     }
 

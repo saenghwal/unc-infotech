@@ -1,7 +1,6 @@
 package io.smartbudget.service;
 
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,19 +21,15 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import io.smartbudget.crypto.PasswordEncoder;
-
 import io.smartbudget.domain.AccountSummary;
-//import UserDAO;
-import io.smartbudget.ejb.dao.impl.UserDAOImpl;
+import io.smartbudget.ejb.dao.UserDAO;
 import io.smartbudget.hibernate.dao.AuthTokenDAO;
 import io.smartbudget.hibernate.dao.BudgetDAO;
-import io.smartbudget.hibernate.dao.BudgetTypeDAO;
 import io.smartbudget.hibernate.dao.CategoryDAO;
 import io.smartbudget.hibernate.dao.RecurringDAO;
 import io.smartbudget.hibernate.dao.TransactionDAO;
 import io.smartbudget.persistence.entity.AuthToken;
 import io.smartbudget.persistence.entity.Budget;
-import io.smartbudget.persistence.entity.BudgetType;
 import io.smartbudget.persistence.entity.Category;
 import io.smartbudget.domain.enums.*;
 import io.smartbudget.domain.Group;
@@ -61,61 +56,31 @@ public class FinanceService {
     private static final Logger LOGGER = LoggerFactory.getLogger(FinanceService.class);
     private static final DateTimeFormatter SUMMARY_DATE_FORMATTER = DateTimeFormatter.ofPattern("dd MMM");
 
-    private SessionFactory hibernateSession = null;
-    private SqlSessionFactory mybatisSession = null;
-    private final io.smartbudget.hibernate.dao.UserDAO userDAO;
-    private final UserDAOImpl mybatisUserDAO;
+    private SqlSessionFactory sessionFactory;
+    private final UserDAO userDAO;
     private final BudgetDAO budgetDAO;
-    private final BudgetTypeDAO budgetTypeDAO;
     private final CategoryDAO categoryDAO;
     private final TransactionDAO transactionDAO;
     private final RecurringDAO recurringDAO;
+    private final PasswordEncoder passwordEncoder;
     private final AuthTokenDAO authTokenDAO;
 
-    private final PasswordEncoder passwordEncoder;
 
-    public FinanceService(SqlSessionFactory sessionFactory, UserDAOImpl userDAO,
-                          PasswordEncoder passwordEncoder) {
+    public FinanceService(SqlSessionFactory sessionFactory, UserDAO userDAO, BudgetDAO budgetDAO, CategoryDAO categoryDAO,
+                          TransactionDAO transactionDAO, AuthTokenDAO authTokenDAO, RecurringDAO recurringDAO, PasswordEncoder passwordEncoder) {
 
-        this.mybatisSession = sessionFactory;
-
-        this.mybatisUserDAO = userDAO;
-        this.budgetDAO = null;
-        this.budgetTypeDAO = null;
-        this.categoryDAO = null;
-        this.transactionDAO = null;
-        this.recurringDAO = null;
-        this.authTokenDAO = null;
-
-        this.passwordEncoder = passwordEncoder;
-        this.userDAO = null;
-    }
-
-    public FinanceService(SessionFactory sessionFactory, io.smartbudget.hibernate.dao.UserDAO userDAO, BudgetDAO budgetDAO,
-                          BudgetTypeDAO budgetTypeDAO, CategoryDAO categoryDAO,
-                          TransactionDAO transactionDAO, RecurringDAO recurringDAO,
-                          AuthTokenDAO authTokenDAO, PasswordEncoder passwordEncoder) {
-
-        this.hibernateSession = sessionFactory;
         this.userDAO = userDAO;
         this.budgetDAO = budgetDAO;
-        this.budgetTypeDAO = budgetTypeDAO;
         this.categoryDAO = categoryDAO;
         this.transactionDAO = transactionDAO;
         this.recurringDAO = recurringDAO;
-        this.authTokenDAO = authTokenDAO;
-
         this.passwordEncoder = passwordEncoder;
-        this.mybatisUserDAO = null;
-
-    }
-
-    public SessionFactory getHibernateSession() {
-        return hibernateSession;
+        this.authTokenDAO = authTokenDAO;
+        this.sessionFactory = sessionFactory;
     }
 
     public SqlSessionFactory getMybatisSession() {
-        return mybatisSession;
+        return sessionFactory;
     }
 
     public User addUser(SignUpForm signUp) {
@@ -272,12 +237,10 @@ public class FinanceService {
             List<Budget> budgets = defaultBudgets.get(category.getName());
             if(budgets != null) {
                 for(Budget budget : budgets) {
-                    BudgetType budgetType = budgetTypeDAO.addBudgetType();
                     Budget newBudget = new Budget();
                     newBudget.setName(budget.getName());
                     newBudget.setPeriodOn(period);
                     newBudget.setCategory(category);
-                    newBudget.setBudgetType(budgetType);
                     budgetDAO.addBudget(user, newBudget);
                 }
             }
@@ -285,9 +248,7 @@ public class FinanceService {
     }
 
     public Budget addBudget(User user, AddBudgetForm budgetForm) {
-        BudgetType budgetType = budgetTypeDAO.addBudgetType();
         Budget budget = new Budget(budgetForm);
-        budget.setBudgetType(budgetType);
         return budgetDAO.addBudget(user, budget);
     }
 
@@ -345,7 +306,6 @@ public class FinanceService {
             newBudget.setProjected(budget.getProjected());
             newBudget.setPeriodOn(period);
             newBudget.setCategory(budget.getCategory());
-            newBudget.setBudgetType(budget.getBudgetType());
             budgetDAO.addBudget(user, newBudget);
         }
     }
@@ -366,7 +326,6 @@ public class FinanceService {
         recurring.setAmount(recurringForm.getAmount());
         recurring.setLastRunAt(recurringForm.getRecurringAt());
         recurring.setRecurringType(recurringForm.getRecurringType());
-        recurring.setBudgetType(budget.getBudgetType());
         recurring.setRemark(recurringForm.getRemark());
         recurring = recurringDAO.addRecurring(recurring);
 
@@ -463,7 +422,6 @@ public class FinanceService {
             LOGGER.debug("Add recurring {} by {}", transactionForm, user);
             recurring.setAmount(transactionForm.getAmount());
             recurring.setRecurringType(transactionForm.getRecurringType());
-            recurring.setBudgetType(budget.getBudgetType());
             recurring.setRemark(transactionForm.getRemark());
             recurring.setLastRunAt(transactionForm.getTransactionOn());
             recurringDAO.addRecurring(recurring);

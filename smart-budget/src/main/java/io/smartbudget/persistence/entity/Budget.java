@@ -16,7 +16,6 @@ public class Budget implements Serializable {
     private Date createdAt;
     private User user;
     private Category category;
-    private BudgetType budgetType;
 
     public Budget() {
     }
@@ -79,43 +78,6 @@ public class Budget implements Serializable {
         this.createdAt = createdAt;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Budget budget = (Budget) o;
-
-        if (id != budget.id) return false;
-        if (Double.compare(budget.projected, projected) != 0) return false;
-        if (Double.compare(budget.actual, actual) != 0) return false;
-        if (!name.equals(budget.name)) return false;
-        if (!periodOn.equals(budget.periodOn)) return false;
-        if (!createdAt.equals(budget.createdAt)) return false;
-        if (!user.equals(budget.user)) return false;
-        if (!category.equals(budget.category)) return false;
-        return budgetType.equals(budget.budgetType);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result;
-        long temp;
-        result = (int) (id ^ (id >>> 32));
-        result = 31 * result + name.hashCode();
-        temp = Double.doubleToLongBits(projected);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(actual);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + periodOn.hashCode();
-        result = 31 * result + createdAt.hashCode();
-        result = 31 * result + user.hashCode();
-        result = 31 * result + category.hashCode();
-        result = 31 * result + budgetType.hashCode();
-        return result;
-    }
-
     public User getUser() {
         return user;
     }
@@ -132,11 +94,4 @@ public class Budget implements Serializable {
         this.category = category;
     }
 
-    public BudgetType getBudgetType() {
-        return budgetType;
-    }
-
-    public void setBudgetType(BudgetType budgetType) {
-        this.budgetType = budgetType;
-    }
 }
