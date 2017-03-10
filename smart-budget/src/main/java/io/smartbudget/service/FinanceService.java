@@ -84,22 +84,22 @@ public class FinanceService {
     }
 
     public User addUser(SignUpForm signUp) {
-        Optional<User> optional = userDAO.findByUsername(signUp.getUsername());
-        if(optional.isPresent()) {
-            throw new DataConstraintException("username", "Username already taken.");
-        }
+        User optional = userDAO.findByUsername(signUp.getUsername());
+//        if(optional != null) {
+//            throw new DataConstraintException("username", "Username already taken.");
+//        }
         signUp.setPassword(passwordEncoder.encode(signUp.getPassword()));
         //User user = userDAO.add(signUp.get);
         LocalDate now = LocalDate.now();
+        return optional;
         // init account
         //initCategoriesAndBudgets(user, now.getMonthValue(), now.getYear());
-        return null;
     }
 
     public User update(User user, Profile profile) {
         user.setName(profile.getName());
         user.setCurrency(profile.getCurrency());
-        userDAO.update(user);
+        userDAO.merge(user);
         return user;
     }
 
@@ -114,7 +114,7 @@ public class FinanceService {
             throw new DataConstraintException("original", "Current Password does not match");
         }
         originalUser.setPassword(passwordEncoder.encode(password.getPassword()));
-        userDAO.update(originalUser);
+        userDAO.merge(originalUser);
     }
 
     public Optional<User> findUserByToken(String token) {
@@ -128,24 +128,24 @@ public class FinanceService {
         }
     }
 
-    public Optional<User> login(LoginForm login) {
-        Optional<User> optionalUser = userDAO.findByUsername(login.getUsername());
-        if(optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            if(passwordEncoder.matches(login.getPassword(), user.getPassword())) {
-                List<AuthToken> tokens = authTokenDAO.findByUser(user);
-                if(tokens.isEmpty()) {
-                    AuthToken token = authTokenDAO.add(optionalUser.get());
-                    optionalUser.get().setToken(token.getToken());
-                    return optionalUser;
-                } else {
-                    optionalUser.get().setToken(tokens.get(0).getToken());
-                    return optionalUser;
-                }
-            }
-        }
+    public User login(LoginForm login) {
+        User optionalUser = userDAO.findByUsername(login.getUsername());
+        return optionalUser;
+//        if(optionalUser.isPresent()) {
+//            User user = optionalUser.get();
+//            if(passwordEncoder.matches(login.getPassword(), user.getPassword())) {
+//                List<AuthToken> tokens = authTokenDAO.findByUser(user);
+//                if(tokens.isEmpty()) {
+//                    AuthToken token = authTokenDAO.add(optionalUser.get());
+//                    optionalUser.get().setToken(token.getToken());
+//                    return optionalUser;
+//                } else {
+//                    optionalUser.get().setToken(tokens.get(0).getToken());
+//                    return optionalUser;
+//                }
+//            }
+//        }
 
-        return Optional.empty();
     }
 
     public AccountSummary findAccountSummaryByUser(User user, Integer month, Integer year) {

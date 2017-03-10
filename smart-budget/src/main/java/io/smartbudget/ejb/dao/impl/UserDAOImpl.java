@@ -1,25 +1,18 @@
 package io.smartbudget.ejb.dao.impl;
 
-import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.List;
-import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Local;
 import javax.ejb.Stateful;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
 
 import io.smartbudget.ejb.dao.UserDAO;
 import io.smartbudget.persistence.entity.User;
 import io.smartbudget.persistence.mappers.UsersMapper;
 import io.smartbudget.exception.NotFoundException;
-import io.smartbudget.form.SignUpForm;
 
 @Stateful
 @Local
@@ -27,60 +20,11 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
 
-    private SqlSession session;
-    private SqlSessionFactory sessionFactory;
-
-    public UserDAOImpl(UsersMapper mapper) {
-        super(mapper);
-        //this.mapper = sqlSessionFactory.openSession().getMapper(UsersMapper.class);
-    }
-
     public UserDAOImpl(SqlSessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+        super(sessionFactory.openSession().getMapper(UsersMapper.class));
     }
 
     public UserDAOImpl() {
-    }
-
-    @Override
-    public User findById(Long userId) {
-        User user = ((UsersMapper) mapper).findById(userId);
-        if(user == null) {
-            throw new NotFoundException();
-        }
-        return user;
-    }
-
-    @Override
-    public User addUser(User user) {
-        LOGGER.debug("Add new user {}", user);
-        ((UsersMapper) mapper).addUser(user);
-
-        //try (SqlSessionFactory session = sessionFactory.openSession()) {
-            //session.insert("User.addUser", user);
-            //or
-
-        //}
-        return user;
-    }
-
-    public void update(User user) {
-        LOGGER.debug("Update user {}", user);
-        //SqlSession session = sessionFactory.openSession();
-        //session.update("User.update",user);
-    }
-
-
-    @Override
-    public Optional<User> findByUsername(String username) {
-//        SqlSession session = sessionFactory.openSession();
-//        List<User> users = session.selectList("User.findByUsername", username);
-//        if(users.size() == 1) {
-//            return Optional.of(users.get(0));
-//        } else {
-//            return Optional.empty();
-//        }
-        return ((UsersMapper) mapper).findByUserName(username);
     }
 
     @PostConstruct
@@ -94,6 +38,42 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
     public void destroyBean() {
         // Free here session bean resources
         LOGGER.debug("UserDAOImpl destroyed.");
+    }
+
+    @Override
+    public User findById(Long userId) {
+        User user = ((UsersMapper) mapper).findById(userId);
+        if(user == null) {
+            throw new NotFoundException();
+        }
+        return user;
+    }
+
+    @Override
+    public void save(User user) {
+        LOGGER.debug("Add new user {}", user);
+        mapper.save(user);
+
+        //or
+        //try (SqlSessionFactory session = sessionFactory.openSession()) {
+            //session.insert("User.save", user);
+        //}
+    }
+
+    @Override
+    public void merge(User user) {
+        LOGGER.debug("Update user {}", user);
+        mapper.merge(user);
+
+        //or
+        //SqlSession session = sessionFactory.openSession();
+        //session.update("User.merge",user);
+    }
+
+
+    @Override
+    public User findByUsername(String username) {
+        return ((UsersMapper) mapper).findByUserName(username);
     }
 
 }

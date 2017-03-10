@@ -83,9 +83,9 @@ public class UserResource extends AbstractResource {
     @UnitOfWork
     @Path("/auth")
     public Response login(LoginForm login) {
-        Optional<User> user = financeService.login(login);
-        if(user.isPresent()) {
-            return ok(user.get());
+        User user = financeService.login(login);
+        if(user != null) {
+            return ok(user);
         } else {
             return unauthorized();
         }

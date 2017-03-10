@@ -5,7 +5,7 @@
 
 <mapper namespace="io.smartbudget.persistence.mappers.UsersMapper">
 
-    <resultMap id="user" type="io.smartbudget.persistence.entity.User">
+    <resultMap id="resultUser" type="io.smartbudget.persistence.entity.User">
         <id property="id" column="id"/>
         <result property="username" column="username"/>
         <result property="password" column="password"/>
@@ -14,12 +14,12 @@
         <result property="currency" column="currency"/>
     </resultMap>
 
-    <insert id="addUser" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+    <insert id="save" parameterType="User" useGeneratedKeys="true" keyProperty="id">
         insert into users (username, password)
         values (#{username}, #{password});
     </insert>
 
-    <update id="update" parameterType = "User">
+    <update id="merge" parameterType="User">
         update users
          <!--SET name = #{name}, currency = #{currency}-->
         <set>
@@ -33,11 +33,11 @@
         where id = #{id};
     </update>
 
-    <select id="findById" parameterType="java.lang.Long" resultMap="user">
+    <select id="findById" parameterType="java.lang.Long" resultMap="resultUser">
         select * from users where id = #{id};
     </select>
 
-    <select id="findByUsername" parameterType="java.lang.String" resultMap="user">
+    <select id="findByUserName" parameterType="java.lang.String" resultMap="resultUser">
         select * from users where username = #{username};
     </select>
 </mapper>

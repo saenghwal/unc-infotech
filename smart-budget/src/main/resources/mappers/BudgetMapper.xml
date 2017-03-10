@@ -3,10 +3,36 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="io.smartbudget.persistence.mappers.BudgetMapper">
+<mapper namespace="io.smartbudget.persistence.mappers.BudgetsMapper">
 
-    <select id="mysqlVersion" resultType="String">
-        SELECT VERSION()
+    <resultMap id="budgetResult" type="io.smartbudget.persistence.entity.Budget">
+        <id property="id" column="id"/>
+        <result property="name" column="username"/>
+        <result property="projected" column="projected"/>
+        <result property="actual" column="actual"/>
+        <result property="periodOn" column="period_on"/>
+        <result property="createdAt" column="created_at"/>
+        <association property="user" column="id" javaType="io.smartbudget.persistence.entity.User"
+                     select="selectUser">
+            <id property="id" column="user_id"/>
+            <result property="username" column="username"/>
+            <result property="password" column="password"/>
+            <result property="name" column="name"/>
+            <result property="createdAt" column="created_at"/>
+            <result property="currency" column="currency"/>
+        </association>
+        <!--<association property="category" column="category_id" javaType="io.smartbudget.persistence.entity.User"-->
+                     <!--select="selectCategory">-->
+            <!--<id property="id" column="user_id"/>-->
+        <!--</association>-->
+    </resultMap>
+
+    <select id="findBudgets" resultMap="budgetResult">
+        SELECT * FROM budgets WHERE user_id = #{id};
+    </select>
+
+    <select id="selectUser" resultType="User">
+        SELECT * FROM users WHERE id = #{id};
     </select>
 
 </mapper>
