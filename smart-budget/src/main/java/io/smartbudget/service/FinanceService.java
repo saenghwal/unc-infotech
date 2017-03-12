@@ -23,12 +23,10 @@ import java.util.stream.Collectors;
 import io.smartbudget.crypto.PasswordEncoder;
 import io.smartbudget.domain.AccountSummary;
 import io.smartbudget.ejb.dao.UserDAO;
-import io.smartbudget.hibernate.dao.AuthTokenDAO;
 import io.smartbudget.hibernate.dao.BudgetDAO;
 import io.smartbudget.hibernate.dao.CategoryDAO;
 import io.smartbudget.hibernate.dao.RecurringDAO;
 import io.smartbudget.hibernate.dao.TransactionDAO;
-import io.smartbudget.persistence.entity.AuthToken;
 import io.smartbudget.persistence.entity.Budget;
 import io.smartbudget.persistence.entity.Category;
 import io.smartbudget.domain.enums.*;
@@ -63,11 +61,10 @@ public class FinanceService {
     private final TransactionDAO transactionDAO;
     private final RecurringDAO recurringDAO;
     private final PasswordEncoder passwordEncoder;
-    private final AuthTokenDAO authTokenDAO;
 
 
     public FinanceService(SqlSessionFactory sessionFactory, UserDAO userDAO, BudgetDAO budgetDAO, CategoryDAO categoryDAO,
-                          TransactionDAO transactionDAO, AuthTokenDAO authTokenDAO, RecurringDAO recurringDAO, PasswordEncoder passwordEncoder) {
+                          TransactionDAO transactionDAO, RecurringDAO recurringDAO, PasswordEncoder passwordEncoder) {
 
         this.userDAO = userDAO;
         this.budgetDAO = budgetDAO;
@@ -75,7 +72,6 @@ public class FinanceService {
         this.transactionDAO = transactionDAO;
         this.recurringDAO = recurringDAO;
         this.passwordEncoder = passwordEncoder;
-        this.authTokenDAO = authTokenDAO;
         this.sessionFactory = sessionFactory;
     }
 
@@ -117,16 +113,6 @@ public class FinanceService {
         userDAO.merge(originalUser);
     }
 
-    public Optional<User> findUserByToken(String token) {
-
-        Optional<AuthToken> authToken = authTokenDAO.find(token);
-
-        if(authToken.isPresent()) {
-            return Optional.of(authToken.get().getUser());
-        } else {
-            return Optional.empty();
-        }
-    }
 
     public User login(LoginForm login) {
         User optionalUser = userDAO.findByUsername(login.getUsername());

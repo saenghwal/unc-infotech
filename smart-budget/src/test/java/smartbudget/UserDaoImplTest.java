@@ -12,9 +12,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import io.smartbudget.domain.enums.CategoryType;
 import io.smartbudget.ejb.dao.impl.BudgetDAOImpl;
 import io.smartbudget.ejb.dao.impl.UserDAOImpl;
 import io.smartbudget.persistence.entity.Budget;
+import io.smartbudget.persistence.entity.Category;
 import io.smartbudget.persistence.entity.User;
 import io.smartbudget.persistence.mappers.UsersMapper;
 import io.smartbudget.util.Util;
@@ -45,16 +47,25 @@ public class UserDaoImplTest {
             System.out.println(budgetDAO.findById(82L));
             System.out.println(Util.toDate("2014-08-19"));
 
-//            Budget newBudget = new Budget();
-//            newBudget.setName("Pills");
-//            newBudget.setProjected(1000);
-//            newBudget.setActual(500);
-//            LocalDate now = LocalDate.now();
-//            int month = now.getMonthValue();
-//            int year = now.getYear();
-//            Date period = Util.yearMonthDate(month, year);
-//            newBudget.setPeriodOn(period);
-//            newBudget.setPeriodOn(period);
+            Budget newBudget = new Budget();
+            newBudget.setName("Pills");
+            newBudget.setProjected(1000);
+            newBudget.setActual(500);
+            LocalDate now = LocalDate.now();
+            int month = now.getMonthValue();
+            int year = now.getYear();
+            Date period = Util.yearMonthDate(month, year);
+            newBudget.setPeriodOn(period);
+            newBudget.setPeriodOn(period);
+            newBudget.setCreatedAt(Util.toDate(now));
+            newBudget.setUser(user);
+            Category newCategory = new Category(3L);
+            newCategory.setName("Transportation");
+            newCategory.setType(CategoryType.EXPENDITURE);
+            newCategory.setCreatedAt(Util.toDate(now));
+            newCategory.setUser(user);
+            newBudget.setCategory(newCategory);
+            budgetDAO.save(newBudget);
         } catch (IOException e) {
             e.printStackTrace();
         }

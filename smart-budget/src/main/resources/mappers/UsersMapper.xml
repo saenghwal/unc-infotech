@@ -14,7 +14,8 @@
         <result property="currency" column="currency"/>
     </resultMap>
 
-    <insert id="save" parameterType="io.smartbudget.persistence.entity.User" useGeneratedKeys="true" keyProperty="id">
+    <insert id="save" parameterType="io.smartbudget.persistence.entity.User"
+            useGeneratedKeys="true" keyProperty="id">
         INSERT INTO users (username, password)
         VALUES (#{username}, #{password});
     </insert>
