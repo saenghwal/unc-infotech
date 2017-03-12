@@ -105,4 +105,36 @@ public class BudgetDAOImpl extends GenericDAOImpl<Budget, Long> implements Budge
         }
         return budget;
     }
+
+    @Override
+    public Date findLatestBudget(User user) {
+        LOGGER.debug("Find latest budget by user {}", user);
+        return ((BudgetsMapper) mapper).findLatestBudget(user);
+    }
+
+    @Override
+    public List<Budget> findByUserAndCategory(User user, Long categoryId) {
+        return ((BudgetsMapper) mapper).findByUserAndCategory(user, categoryId,
+                Util.currentYearMonth());
+    }
+
+    @Override
+    public List<Budget> findByRange(User user, int startMonth, int startYear, int endMonth,
+                                    int endYear) {
+        Date start = Util.yearMonthDate(startMonth, startYear);
+        Date end = Util.yearMonthDate(endMonth, endYear);
+
+        return ((BudgetsMapper) mapper).findByRange(user, start, end);
+    }
+
+    @Override
+    public void merge(Budget budget) {
+        ((BudgetsMapper) mapper).merge(budget);
+    }
+
+    @Override
+    public List<String> findSuggestions(User user, String q) {
+        q = q == null? "": q.toLowerCase();
+        return ((BudgetsMapper) mapper).findSuggestions(user, "%" + q + "%");
+    }
 }

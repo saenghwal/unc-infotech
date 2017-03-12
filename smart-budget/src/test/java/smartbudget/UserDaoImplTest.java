@@ -38,7 +38,7 @@ public class UserDaoImplTest {
             System.out.println(user);
 
             BudgetDAOImpl budgetDAO = new BudgetDAOImpl(sqlSessionFactory);
-            List<Budget> foundedBudgets = budgetDAO.findBudgets(user, 2, 2017);
+            List<Budget> foundedBudgets = budgetDAO.findBudgets(user);
             System.out.println(foundedBudgets.get(0));
             user.setName("Vitaliia");
             user.setCurrency("RUB");
@@ -63,9 +63,18 @@ public class UserDaoImplTest {
             newCategory.setName("Transportation");
             newCategory.setType(CategoryType.EXPENDITURE);
             newCategory.setCreatedAt(Util.toDate(now));
-            newCategory.setUser(user);
             newBudget.setCategory(newCategory);
-            budgetDAO.save(newBudget);
+            newBudget.setId(143L);
+            //budgetDAO.addBudget(user, newBudget);
+
+            System.out.println(budgetDAO.findLatestBudget(user));
+            System.out.println(budgetDAO.findByUserAndCategory(user, 3L).size());
+            System.out.println(budgetDAO.findByRange(user, 2, 2017, 2, 2017).size());
+
+            //budgetDAO.delete(newBudget);
+            newBudget.setActual(100);
+            budgetDAO.merge(newBudget);
+            System.out.println(budgetDAO.findSuggestions(user, "Inter").get(0));
         } catch (IOException e) {
             e.printStackTrace();
         }

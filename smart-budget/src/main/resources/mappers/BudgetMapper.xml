@@ -36,12 +36,12 @@
         <association property="user" column="user_id" select="selectUser" javaType="io.smartbudget.persistence.entity.User"/>
     </resultMap>
 
-    <select id="findBudgets" parameterType="map"
-            resultMap="budgetResultMap" >
+    <select id="findBudgets" parameterType="map" resultMap="budgetResultMap" >
         SELECT * FROM budgets WHERE user_id = #{user.id}
-        <if test="period != null" >
-            AND period_on = #{period};
+        <if test="period != null">
+            AND period_on = #{period}
         </if>
+        ORDER BY id ASC;
     </select>
 
     <select id="selectUser" parameterType="java.lang.Long" resultMap="userResultMap"
@@ -55,8 +55,8 @@
     </select>
 
     <select id="findLatestBudget" parameterType="io.smartbudget.persistence.entity.User"
-            resultMap="budgetResultMap" resultType="io.smartbudget.persistence.entity.Budget">
-        SELECT * FROM budgets WHERE user_id = #{id} ORDER BY created_at DESC;
+            resultType="java.util.Date">
+        SELECT created_at FROM budgets WHERE user_id = #{id} ORDER BY created_at DESC LIMIT 1;
     </select>
 
     <insert id="save" parameterType="io.smartbudget.persistence.entity.Budget"
@@ -68,4 +68,39 @@
     <select id="findById" parameterType="java.lang.Long" resultMap="budgetResultMap">
         SELECT * FROM budgets WHERE id = #{id};
     </select>
+
+    <select id="findByUserAndCategory" parameterType="map" resultMap="budgetResultMap">
+        SELECT * FROM budgets WHERE user_id = #{user.id} AND category_id = #{categoryId}
+        AND period_on = #{period};
+    </select>
+
+    <select id="findByRange" parameterType="map" resultMap="budgetResultMap">
+        SELECT * FROM budgets WHERE user_id = #{user.id} AND period_on BETWEEN #{start} AND #{end};
+    </select>
+
+    <delete id="delete" parameterType="io.smartbudget.persistence.entity.Budget">
+        DELETE FROM budgets WHERE id = #{id};
+    </delete>
+
+    <update id="merge" parameterType="io.smartbudget.persistence.entity.Budget">
+        UPDATE budgets
+        <!--SET name = #{name}, currency = #{currency}-->
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="projected != null">
+                projected = #{projected},
+            </if>
+            <if test="actual != null">
+                actual = #{actual},
+            </if>
+        </set>
+        WHERE id = #{id};
+    </update>
+
+    <select id="findSuggestions" parameterType="map" resultType="java.lang.String">
+        SELECT name FROM budgets WHERE user_id != #{user.id} AND LOWER(name) LIKE #{query};
+    </select>
+
 </mapper>
