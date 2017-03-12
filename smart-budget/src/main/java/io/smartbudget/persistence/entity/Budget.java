@@ -8,7 +8,7 @@ import io.smartbudget.form.budget.AddBudgetForm;
 public class Budget implements Serializable {
     private static final long serialVersionUID = 2625666273036891436L;
 
-    private long id;
+    private Long id;
     private String name;
     private double projected;
     private double actual;
@@ -20,7 +20,7 @@ public class Budget implements Serializable {
     public Budget() {
     }
 
-    public Budget(long budgetId) {
+    public Budget(Long budgetId) {
         this.id = budgetId;
     }
 
@@ -94,4 +94,16 @@ public class Budget implements Serializable {
         this.category = category;
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Budget{");
+        sb.append("id=").append(id);
+        sb.append(", actual=").append(actual);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", createdAt=").append(createdAt);
+        sb.append(", user=").append(user);
+        sb.append(", category=").append(category);
+        sb.append('}');
+        return sb.toString();
+    }
 }

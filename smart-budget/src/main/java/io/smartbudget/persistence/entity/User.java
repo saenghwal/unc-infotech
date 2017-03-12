@@ -18,7 +18,6 @@ public class User implements Principal, Serializable {
     private String name;
     private Date createdAt;
     private String currency;
-    private String token;
 
     public User() {
     }
@@ -78,15 +77,6 @@ public class User implements Principal, Serializable {
     @JsonProperty("avatar")
     public String getAvatar() {
         return "https://www.gravatar.com/avatar/" + MD5Util.computeMD5(getUsername());
-    }
-
-    @JsonProperty("token")
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 
     @Override

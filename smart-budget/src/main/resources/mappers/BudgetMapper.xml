@@ -5,34 +5,65 @@
 
 <mapper namespace="io.smartbudget.persistence.mappers.BudgetsMapper">
 
-    <resultMap id="budgetResult" type="io.smartbudget.persistence.entity.Budget">
+    <resultMap id="budgetResultMap" type="io.smartbudget.persistence.entity.Budget">
         <id property="id" column="id"/>
         <result property="name" column="username"/>
         <result property="projected" column="projected"/>
         <result property="actual" column="actual"/>
         <result property="periodOn" column="period_on"/>
         <result property="createdAt" column="created_at"/>
-        <association property="user" column="id" javaType="io.smartbudget.persistence.entity.User"
+        <association property="user" column="user_id" javaType="io.smartbudget.persistence.entity.User"
                      select="selectUser">
-            <id property="id" column="user_id"/>
-            <result property="username" column="username"/>
-            <result property="password" column="password"/>
-            <result property="name" column="name"/>
-            <result property="createdAt" column="created_at"/>
-            <result property="currency" column="currency"/>
         </association>
-        <!--<association property="category" column="category_id" javaType="io.smartbudget.persistence.entity.User"-->
-                     <!--select="selectCategory">-->
-            <!--<id property="id" column="user_id"/>-->
-        <!--</association>-->
+        <association property="category" resultMap="categoryResultMap">
+        </association>
     </resultMap>
 
-    <select id="findBudgets" resultMap="budgetResult">
-        SELECT * FROM budgets WHERE user_id = #{id};
+    <resultMap id="userResultMap" type="io.smartbudget.persistence.entity.User">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="name" column="name"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="currency" column="currency"/>
+    </resultMap>
+
+    <resultMap id="categoryResultMap" type="io.smartbudget.persistence.entity.Category">
+        <id property="id" column="id"/>
+        <id property="name" column="name"/>
+        <id property="type" column="type"/>
+        <id property="createdAt" column="created_at" javaType="java.util.Date"/>
+        <association property="user" column="user_id" select="selectUser" javaType="io.smartbudget.persistence.entity.User"/>
+    </resultMap>
+
+    <select id="findBudgets" parameterType="map"
+            resultMap="budgetResultMap" >
+        SELECT * FROM budgets WHERE user_id = #{user.id}
+        <if test="period != null" >
+            AND period_on = #{period};
+        </if>
     </select>
 
-    <select id="selectUser" resultType="User">
+    <select id="selectUser" parameterType="java.lang.Long" resultMap="userResultMap">
         SELECT * FROM users WHERE id = #{id};
     </select>
 
+    <select id="selectCategory" parameterType="java.lang.Long" resultType="io.smartbudget.persistence.entity.Category">
+        SELECT * FROM categories WHERE id = #{id};
+    </select>
+
+    <select id="findLatestBudget" parameterType="io.smartbudget.persistence.entity.User"
+            resultMap="budgetResultMap">
+        SELECT * FROM budgets WHERE user_id = #{id} ORDER BY created_at DESC;
+    </select>
+
+    <insert id="save" parameterType="io.smartbudget.persistence.entity.Budget"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO budgets (name, projected, actual, period_on, created_at, user_id, category_id)
+        VALUES (#{name}, #{projected}, #{actual}, #{period_on}, #{created_at}, #[user_id}, #{category_id}]);
+    </insert>
+
+    <select id="findById" parameterType="java.lang.Long" resultMap="budgetResultMap">
+        SELECT * FROM budgets WHERE id = #{id};
+    </select>
 </mapper>

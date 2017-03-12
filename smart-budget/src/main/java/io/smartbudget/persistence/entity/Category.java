@@ -6,23 +6,23 @@ import java.util.Date;
 import io.smartbudget.domain.enums.CategoryType;
 
 public class Category {
-    private long id;
+    private Long id;
     private String name;
     private CategoryType type;
     private Date createdAt;
     private User user;
 
     public Category(Long categoryId) {
-
+        this.id = categoryId;
     }
 
     public Category() {}
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -46,7 +46,7 @@ public class Category {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -63,23 +63,26 @@ public class Category {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Category that = (Category) o;
+        Category category = (Category) o;
 
-        if (id != that.id) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (type != null ? !type.equals(that.type) : that.type != null) return false;
-        if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null)
-            return false;
+        if (id != null ? !id.equals(category.id) : category.id != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                ", createdAt=" + createdAt +
+                ", user=" + user +
+                '}';
     }
 }
