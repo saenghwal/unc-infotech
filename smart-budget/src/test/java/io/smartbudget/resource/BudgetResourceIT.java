@@ -1,4 +1,4 @@
-package smartbudget.resource;
+package io.smartbudget.resource;
 
 import org.junit.Assert;
 import org.junit.ClassRule;
@@ -11,12 +11,11 @@ import javax.ws.rs.core.Response;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import io.smartbudget.application.BudgetApplication;
 import io.smartbudget.configuration.AppConfiguration;
+import io.smartbudget.modal.IdentityResponse;
 import io.smartbudget.persistence.entity.Budget;
 import io.smartbudget.form.TransactionForm;
 import io.smartbudget.form.budget.AddBudgetForm;
 import io.smartbudget.form.budget.UpdateBudgetForm;
-import io.smartbudget.resource.ResourceURL;
-import smartbudget.modal.IdentityResponse;
 
 public class BudgetResourceIT extends ResourceIT {
 

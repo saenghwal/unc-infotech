@@ -1,4 +1,4 @@
-package smartbudget.modal;
+package io.smartbudget.modal;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

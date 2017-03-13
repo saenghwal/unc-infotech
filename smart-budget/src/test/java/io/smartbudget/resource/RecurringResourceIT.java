@@ -1,4 +1,4 @@
-package smartbudget.resource;
+package io.smartbudget.resource;
 
 import org.junit.Assert;
 import org.junit.ClassRule;
@@ -10,7 +10,6 @@ import io.dropwizard.testing.junit.DropwizardAppRule;
 import io.smartbudget.application.BudgetApplication;
 import io.smartbudget.configuration.AppConfiguration;
 import io.smartbudget.form.TransactionForm;
-import io.smartbudget.resource.ResourceURL;
 import io.smartbudget.domain.enums.RecurringType;
 
 public class RecurringResourceIT extends ResourceIT {

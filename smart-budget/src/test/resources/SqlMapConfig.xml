@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--ссылка на файл со свойствами(ссылка на СУБД, логин, пароль и тп.)-->
+
+    <properties resource="test-config.properties">
+        <property name="username" value="sa"/>
+        <property name="password" value=""/>
+    </properties>
+
+    <settings>
+        <!--Полный список параметров http://mybatis.github.io/mybatis-3/configuration.html#settings-->
+        <setting name="logImpl" value="LOG4J"/>
+    </settings>
+
+    <typeAliases>
+        <typeAlias alias="User" type ="io.smartbudget.persistence.entity.User" />
+        <typeAlias alias="Budget" type ="io.smartbudget.persistence.entity.Budget" />
+        <typeAlias alias="Category" type ="io.smartbudget.persistence.entity.Category" />
+        <typeAlias alias="Transaction" type ="io.smartbudget.persistence.entity.Transaction" />
+        <typeAlias alias="Recurring" type ="io.smartbudget.persistence.entity.Recurring" />
+    </typeAliases>
+
+    <environments default="test">
+        <environment id="test">
+            <transactionManager type="MANAGED"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${db.driver}"/>
+                <property name="url" value="${db.url}"/>
+                <property name="username" value="${db.username}"/>
+                <property name="password" value="${db.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource = "mappers/UsersMapper.xml"/>
+        <mapper resource = "mappers/BudgetsMapper.xml"/>
+        <mapper resource = "mappers/CategoriesMapper.xml"/>
+    </mappers>
+</configuration>

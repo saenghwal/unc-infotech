@@ -1,4 +1,4 @@
-package smartbudget.resource;
+package io.smartbudget.resource;
 
 import com.google.common.io.Resources;
 
@@ -19,14 +19,13 @@ import javax.ws.rs.core.Response;
 
 
 import io.smartbudget.client.HTTPTokenClientFilter;
+import io.smartbudget.modal.IdentityResponse;
 import io.smartbudget.persistence.entity.Budget;
 import io.smartbudget.persistence.entity.Category;
 import io.smartbudget.persistence.entity.User;
 import io.smartbudget.domain.enums.CategoryType;
 import io.smartbudget.form.SignUpForm;
 import io.smartbudget.form.budget.AddBudgetForm;
-import io.smartbudget.resource.ResourceURL;
-import smartbudget.modal.IdentityResponse;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;

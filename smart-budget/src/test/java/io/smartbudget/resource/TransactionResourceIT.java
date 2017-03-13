@@ -1,4 +1,4 @@
-package smartbudget.resource;
+package io.smartbudget.resource;
 
 
 import org.junit.Assert;
@@ -12,13 +12,12 @@ import javax.ws.rs.core.Response;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import io.smartbudget.application.BudgetApplication;
 import io.smartbudget.configuration.AppConfiguration;
+import io.smartbudget.modal.IdentityResponse;
 import io.smartbudget.persistence.entity.Budget;
 import io.smartbudget.persistence.entity.Category;
 import io.smartbudget.domain.enums.CategoryType;
 import io.smartbudget.form.TransactionForm;
 import io.smartbudget.form.budget.AddBudgetForm;
-import io.smartbudget.resource.ResourceURL;
-import smartbudget.modal.IdentityResponse;
 
 public class TransactionResourceIT extends ResourceIT {
 

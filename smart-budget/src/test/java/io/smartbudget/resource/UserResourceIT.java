@@ -1,4 +1,4 @@
-package smartbudget.resource;
+package io.smartbudget.resource;
 
 
 import org.junit.Assert;
@@ -12,13 +12,10 @@ import javax.ws.rs.core.Response;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import io.smartbudget.application.BudgetApplication;
 import io.smartbudget.configuration.AppConfiguration;
-import io.smartbudget.persistence.entity.User;
+import io.smartbudget.modal.ErrorResponse;
 import io.smartbudget.form.LoginForm;
 import io.smartbudget.form.SignUpForm;
 import io.smartbudget.form.user.Password;
-import io.smartbudget.resource.ResourceURL;
-import io.smartbudget.resource.Resources;
-import smartbudget.modal.ErrorResponse;
 
 import static org.junit.Assert.assertTrue;
 

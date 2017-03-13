@@ -1,4 +1,4 @@
-package smartbudget;
+package io.smartbudget;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -7,6 +7,8 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -44,7 +46,7 @@ public class UserDaoImplTest {
             userDAO.merge(user);
 
             System.out.println(budgetDAO.findById(82L));
-            System.out.println(Util.toDate("2014-08-19"));
+//            System.out.println(Util.toDate("2014-08-19"));
 
             Budget newBudget = new Budget();
             newBudget.setName("Pills");
@@ -61,22 +63,29 @@ public class UserDaoImplTest {
             Category newCategory = new Category(3L);
             newCategory.setName("Transportation");
             newCategory.setType(CategoryType.EXPENDITURE);
-            newCategory.setCreatedAt(Util.toDate(now));
+            newCategory.setCreatedAt(Timestamp.from(Instant.now()));
             newBudget.setCategory(newCategory);
-            newBudget.setId(143L);
-            //budgetDAO.addBudget(user, newBudget);
+            budgetDAO.addBudget(user, newBudget);
 
             System.out.println(budgetDAO.findLatestBudget(user));
             System.out.println(budgetDAO.findByUserAndCategory(user, 3L).size());
             System.out.println(budgetDAO.findByRange(user, 2, 2017, 2, 2017).size());
 
-            //budgetDAO.delete(newBudget);
             newBudget.setActual(100);
             budgetDAO.merge(newBudget);
+
+            budgetDAO.delete(newBudget);
+
             System.out.println(budgetDAO.findSuggestions(user, "Inter"));
 
             CategoryDAOImpl categoryDAO = new CategoryDAOImpl(sqlSessionFactory);
             System.out.println(categoryDAO.findSuggestions(user, "me"));
+
+            newCategory = new Category();
+            newCategory.setName("XYZ");
+            newCategory.setType(CategoryType.EXPENDITURE);
+            newCategory.setCreatedAt(Timestamp.from(Instant.now()));
+            categoryDAO.addCategory(user, newCategory);
 
         } catch (IOException e) {
             e.printStackTrace();

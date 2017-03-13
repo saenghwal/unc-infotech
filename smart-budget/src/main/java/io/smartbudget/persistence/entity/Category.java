@@ -9,7 +9,7 @@ public class Category {
     private Long id;
     private String name;
     private CategoryType type;
-    private Date createdAt;
+    private Timestamp createdAt;
     private User user;
 
     public Category(Long categoryId) {
@@ -42,11 +42,11 @@ public class Category {
         this.type = type;
     }
 
-    public Date getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 

@@ -84,20 +84,15 @@ public class User implements Principal, Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        User that = (User) o;
+        User user = (User) o;
 
-        if (id != that.id) return false;
-        if (username != null ? !username.equals(that.username) : that.username != null)
-            return false;
-        if (password != null ? !password.equals(that.password) : that.password != null)
-            return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null)
-            return false;
-        if (currency != null ? !currency.equals(that.currency) : that.currency != null)
-            return false;
+        if (id != user.id) return false;
+        if (!username.equals(user.username)) return false;
+        if (!password.equals(user.password)) return false;
+        if (name != null ? !name.equals(user.name) : user.name != null) return false;
+        if (!createdAt.equals(user.createdAt)) return false;
+        return currency != null ? currency.equals(user.currency) : user.currency == null;
 
-        return true;
     }
 
     @Override

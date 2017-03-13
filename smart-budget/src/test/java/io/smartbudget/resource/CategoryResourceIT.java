@@ -1,4 +1,4 @@
-package smartbudget.resource;
+package io.smartbudget.resource;
 
 
 import org.junit.Assert;
@@ -13,7 +13,6 @@ import io.smartbudget.configuration.AppConfiguration;
 import io.smartbudget.persistence.entity.Category;
 import io.smartbudget.domain.enums.CategoryType;
 import io.smartbudget.form.budget.AddBudgetForm;
-import io.smartbudget.resource.ResourceURL;
 
 public class CategoryResourceIT extends ResourceIT {
 

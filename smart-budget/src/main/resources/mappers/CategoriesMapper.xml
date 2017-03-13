@@ -9,7 +9,7 @@
         <id property="id" column="id"/>
         <id property="name" column="name"/>
         <id property="type" column="type"/>
-        <id property="createdAt" column="created_at" javaType="java.util.Date"/>
+        <id property="createdAt" column="created_at"/>
         <association property="user" column="user_id" select="selectUser"
                      javaType="io.smartbudget.persistence.entity.User"/>
     </resultMap>

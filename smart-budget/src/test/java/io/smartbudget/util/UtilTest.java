@@ -1,4 +1,4 @@
-package smartbudget.util;
+package io.smartbudget.util;
 
 import org.junit.Test;
 
