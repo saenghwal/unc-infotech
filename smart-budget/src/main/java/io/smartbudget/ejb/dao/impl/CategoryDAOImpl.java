@@ -28,6 +28,7 @@ public class CategoryDAOImpl extends GenericDAOImpl<Category, Long> implements C
     public CategoryDAOImpl() {
     }
 
+
     public void addCategory(User user, Category category) {
         LOGGER.debug("Add new category {}", category);
         category.setUser(user);

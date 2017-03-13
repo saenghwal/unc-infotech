@@ -114,11 +114,13 @@
       </column>
     </createTable>
 
-    <addForeignKeyConstraint baseTableName="categories" baseColumnNames="user_id" constraintName="fk_categories_users"
+    <addForeignKeyConstraint baseTableName="categories" baseColumnNames="user_id"
+                             constraintName="fk_categories_users"
                              referencedTableName="users"
                              referencedColumnNames="id" />
 
-    <addForeignKeyConstraint baseTableName="budgets" baseColumnNames="user_id" constraintName="fk_budgets_users"
+    <addForeignKeyConstraint baseTableName="budgets" baseColumnNames="user_id"
+                             constraintName="fk_budgets_users"
                              referencedTableName="users"
                              referencedColumnNames="id" />
 

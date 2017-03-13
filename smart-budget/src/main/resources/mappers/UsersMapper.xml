@@ -22,8 +22,10 @@
 
     <update id="merge" parameterType="User">
         UPDATE users
-         <!--SET name = #{name}, currency = #{currency}-->
         <set>
+            <if test="password != null">
+                password = #{password},
+            </if>
             <if test="name != null">
                 name = #{name},
             </if>

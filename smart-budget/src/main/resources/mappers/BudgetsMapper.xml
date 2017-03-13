@@ -55,8 +55,8 @@
     </select>
 
     <select id="findLatestBudget" parameterType="User"
-            resultType="java.util.Date">
-        SELECT created_at FROM budgets WHERE user_id = #{id} ORDER BY created_at DESC LIMIT 1;
+            resultType="Budget">
+        SELECT * FROM budgets WHERE user_id = #{id} ORDER BY created_at DESC LIMIT 1;
     </select>
 
     <insert id="save" parameterType="Budget"

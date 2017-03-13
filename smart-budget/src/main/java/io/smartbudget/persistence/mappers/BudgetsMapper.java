@@ -12,7 +12,7 @@ public interface BudgetsMapper extends GenericMapper<Budget, Long> {
 
     List<Budget> findBudgets(@Param("user") User user, @Param("period") Date period);
 
-    Date findLatestBudget(User user);
+    Budget findLatestBudget(User user);
 
     List<Budget> findByUserAndCategory(@Param("user") User user,
                                        @Param("categoryId") Long categoryId,

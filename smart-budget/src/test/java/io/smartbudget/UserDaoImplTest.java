@@ -57,7 +57,6 @@ public class UserDaoImplTest {
             int year = now.getYear();
             Date period = Util.yearMonthDate(month, year);
             newBudget.setPeriodOn(period);
-            newBudget.setPeriodOn(period);
             newBudget.setCreatedAt(Util.toDate(now));
             newBudget.setUser(user);
             Category newCategory = new Category(3L);

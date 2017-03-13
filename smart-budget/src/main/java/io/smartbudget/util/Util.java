@@ -11,6 +11,7 @@ import java.time.temporal.ChronoField;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.UUID;
 
 public class Util {
 
@@ -91,4 +92,11 @@ public class Util {
         }
     }
 
+    public static String randomAlphabets() {
+        return UUID.randomUUID().toString().substring(0, 8);
+    }
+
+    public static String randomEmail() {
+        return randomAlphabets() + "@" + randomAlphabets() + ".com";
+    }
 }

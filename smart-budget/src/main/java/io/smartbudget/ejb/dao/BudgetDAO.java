@@ -10,7 +10,7 @@ public interface BudgetDAO extends GenericDAO<Budget, Long> {
 
     List<Budget> findBudgets(User user, int month, int year);
 
-    Date findLatestBudget(User user);
+    Budget findLatestBudget(User user);
 
     List<Budget> findByUserAndCategory(User user, Long categoryId);
 

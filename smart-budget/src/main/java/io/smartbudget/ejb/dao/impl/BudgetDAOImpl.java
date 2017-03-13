@@ -107,7 +107,7 @@ public class BudgetDAOImpl extends GenericDAOImpl<Budget, Long> implements Budge
     }
 
     @Override
-    public Date findLatestBudget(User user) {
+    public Budget findLatestBudget(User user) {
         LOGGER.debug("Find latest budget by user {}", user);
         return ((BudgetsMapper) mapper).findLatestBudget(user);
     }
