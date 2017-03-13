@@ -5,7 +5,7 @@
 
 <mapper namespace="io.smartbudget.persistence.mappers.BudgetsMapper">
 
-    <resultMap id="budgetResultMap" type="io.smartbudget.persistence.entity.Budget">
+    <resultMap id="budgetResultMap" type="Budget">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="projected" column="projected"/>
@@ -19,7 +19,7 @@
         </association>
     </resultMap>
 
-    <resultMap id="userResultMap" type="io.smartbudget.persistence.entity.User">
+    <resultMap id="userResultMap" type="User">
         <id property="id" column="id"/>
         <result property="username" column="username"/>
         <result property="password" column="password"/>
@@ -28,7 +28,7 @@
         <result property="currency" column="currency"/>
     </resultMap>
 
-    <resultMap id="categoryResultMap" type="io.smartbudget.persistence.entity.Category">
+    <resultMap id="categoryResultMap" type="Category">
         <id property="id" column="id"/>
         <id property="name" column="name"/>
         <id property="type" column="type"/>
@@ -45,21 +45,21 @@
     </select>
 
     <select id="selectUser" parameterType="java.lang.Long" resultMap="userResultMap"
-            resultType="io.smartbudget.persistence.entity.User">
+            resultType="User">
         SELECT * FROM users WHERE id = #{id};
     </select>
 
     <select id="selectCategory" parameterType="java.lang.Long" resultMap="categoryResultMap"
-            resultType="io.smartbudget.persistence.entity.Category">
+            resultType="Category">
         SELECT * FROM categories WHERE id = #{id};
     </select>
 
-    <select id="findLatestBudget" parameterType="io.smartbudget.persistence.entity.User"
+    <select id="findLatestBudget" parameterType="User"
             resultType="java.util.Date">
         SELECT created_at FROM budgets WHERE user_id = #{id} ORDER BY created_at DESC LIMIT 1;
     </select>
 
-    <insert id="save" parameterType="io.smartbudget.persistence.entity.Budget"
+    <insert id="save" parameterType="Budget"
             useGeneratedKeys="true" keyProperty="id">
         INSERT INTO budgets (name, projected, actual, period_on, created_at, user_id, category_id)
         VALUES (#{name}, #{projected}, #{actual}, #{periodOn}, #{createdAt}, #{user.id}, #{category.id});
@@ -78,13 +78,12 @@
         SELECT * FROM budgets WHERE user_id = #{user.id} AND period_on BETWEEN #{start} AND #{end};
     </select>
 
-    <delete id="delete" parameterType="io.smartbudget.persistence.entity.Budget">
+    <delete id="delete" parameterType="Budget">
         DELETE FROM budgets WHERE id = #{id};
     </delete>
 
-    <update id="merge" parameterType="io.smartbudget.persistence.entity.Budget">
+    <update id="merge" parameterType="Budget">
         UPDATE budgets
-        <!--SET name = #{name}, currency = #{currency}-->
         <set>
             <if test="name != null">
                 name = #{name},
@@ -100,7 +99,7 @@
     </update>
 
     <select id="findSuggestions" parameterType="map" resultType="java.lang.String">
-        SELECT name FROM budgets WHERE user_id != #{user.id} AND LOWER(name) LIKE #{query};
+        SELECT DISTINCT name FROM budgets WHERE user_id != #{user.id} AND LOWER(name) LIKE #{query};
     </select>
 
 </mapper>

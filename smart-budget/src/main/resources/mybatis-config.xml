@@ -36,6 +36,7 @@
     </environments>
     <mappers>
         <mapper resource = "mappers/UsersMapper.xml"/>
-        <mapper resource = "mappers/BudgetMapper.xml"/>
+        <mapper resource = "mappers/BudgetsMapper.xml"/>
+        <mapper resource = "mappers/CategoriesMapper.xml"/>
     </mappers>
 </configuration>

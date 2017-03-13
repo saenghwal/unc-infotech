@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.smartbudget.persistence.mappers.CategoriesMapper">
+
+    <resultMap id="categoryResultMap" type="io.smartbudget.persistence.entity.Category">
+        <id property="id" column="id"/>
+        <id property="name" column="name"/>
+        <id property="type" column="type"/>
+        <id property="createdAt" column="created_at" javaType="java.util.Date"/>
+        <association property="user" column="user_id" select="selectUser"
+                     javaType="io.smartbudget.persistence.entity.User"/>
+    </resultMap>
+
+    <resultMap id="userResultMap" type="io.smartbudget.persistence.entity.User">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="name" column="name"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="currency" column="currency"/>
+    </resultMap>
+
+    <select id="selectUser" parameterType="java.lang.Long" resultMap="userResultMap"
+            resultType="io.smartbudget.persistence.entity.User">
+        SELECT * FROM users WHERE id = #{id};
+    </select>
+
+    <insert id="save" parameterType="io.smartbudget.persistence.entity.Category"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO categories (name, type, created_at, user_id)
+        VALUES (#{name}, #{type}, #{createdAt}, #{user.id});
+    </insert>
+
+    <select id="findById" parameterType="java.lang.Long" resultMap="categoryResultMap">
+        SELECT * FROM categories WHERE id = #{id};
+    </select>
+
+    <select id="find" parameterType="map" resultMap="categoryResultMap">
+        SELECT * FROM categories WHERE user_id = #{user.id} AND id = #{categoryId};
+    </select>
+
+    <select id="findCategories" parameterType="io.smartbudget.persistence.entity.User"
+            resultMap="categoryResultMap" >
+        SELECT * FROM categories WHERE user_id = #{id} ORDER BY type DESC;
+    </select>
+
+    <delete id="delete" parameterType="io.smartbudget.persistence.entity.Category">
+        DELETE FROM categories WHERE id = #{id};
+    </delete>
+
+    <select id="findSuggestions" parameterType="map" resultType="java.lang.String">
+        SELECT DISTINCT name FROM categories WHERE user_id != #{user.id} AND LOWER(name) LIKE #{query};
+    </select>
+
+</mapper>

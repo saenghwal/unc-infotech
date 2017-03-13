@@ -10,15 +10,14 @@ import java.io.Reader;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import io.smartbudget.domain.enums.CategoryType;
 import io.smartbudget.ejb.dao.impl.BudgetDAOImpl;
+import io.smartbudget.ejb.dao.impl.CategoryDAOImpl;
 import io.smartbudget.ejb.dao.impl.UserDAOImpl;
 import io.smartbudget.persistence.entity.Budget;
 import io.smartbudget.persistence.entity.Category;
 import io.smartbudget.persistence.entity.User;
-import io.smartbudget.persistence.mappers.UsersMapper;
 import io.smartbudget.util.Util;
 
 public class UserDaoImplTest {
@@ -74,7 +73,11 @@ public class UserDaoImplTest {
             //budgetDAO.delete(newBudget);
             newBudget.setActual(100);
             budgetDAO.merge(newBudget);
-            System.out.println(budgetDAO.findSuggestions(user, "Inter").get(0));
+            System.out.println(budgetDAO.findSuggestions(user, "Inter"));
+
+            CategoryDAOImpl categoryDAO = new CategoryDAOImpl(sqlSessionFactory);
+            System.out.println(categoryDAO.findSuggestions(user, "me"));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
