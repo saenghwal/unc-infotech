@@ -1,5 +1,3 @@
-package io.smartbudget;
-
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -108,5 +106,20 @@ public class BudgetDAOImplTest {
         Assert.assertNotNull(defaultBudget);
         Assert.assertEquals("Test", defaultBudget.getName());
         Assert.assertEquals(1000, budgetDAO.findById(defaultBudget.getId()).getProjected(), 0.000);
+    }
+
+    @Test
+    public void shouldAbleFindValidBudget() {
+
+    }
+
+    @Test
+    public void shouldAbleToListBudgets() {
+
+    }
+
+    @Test
+    public void shouldNotAbleDeleteBudgetWithChild() {
+
     }
 }
