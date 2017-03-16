@@ -12,11 +12,8 @@
         <result property="actual" column="actual"/>
         <result property="periodOn" column="period_on"/>
         <result property="createdAt" column="created_at"/>
-        <association property="user" column="user_id" javaType="io.smartbudget.persistence.entity.User"
-                     select="selectUser">
-        </association>
-        <association property="category" column="category_id" select="selectCategory">
-        </association>
+        <association property="user" column="user_id" select="selectUser"/>
+        <association property="category" column="category_id" select="selectCategory"/>
     </resultMap>
 
     <resultMap id="userResultMap" type="User">
@@ -33,7 +30,7 @@
         <id property="name" column="name"/>
         <id property="type" column="type"/>
         <id property="createdAt" column="created_at"/>
-        <association property="user" column="user_id" select="selectUser" javaType="io.smartbudget.persistence.entity.User"/>
+        <association property="user" column="user_id" select="selectUser" javaType="User"/>
     </resultMap>
 
     <select id="findBudgets" parameterType="map" resultMap="budgetResultMap" >

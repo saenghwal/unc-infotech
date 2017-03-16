@@ -88,6 +88,6 @@ public class CategoryDAOImplTest {
 
     @Test
     public void shouldNotAbleDeleteCategoryWithChild() {
-        
+
     }
 }

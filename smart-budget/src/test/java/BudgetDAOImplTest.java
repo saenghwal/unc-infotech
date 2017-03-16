@@ -10,9 +10,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 
 import io.smartbudget.HSQLDatabaseConnectionProvider;
 import io.smartbudget.domain.enums.CategoryType;
@@ -99,27 +96,39 @@ public class BudgetDAOImplTest {
     public void shouldBeAbleUpdateBudget() {
         defaultBudget.setName("Test");
         defaultBudget.setProjected(1000);
+
+        Assert.assertNotNull(defaultCategory);
         defaultBudget.setCategory(defaultCategory);
+
+        Assert.assertNotNull(defaultBudget);
 
         budgetDAO.merge(defaultBudget);
 
-        Assert.assertNotNull(defaultBudget);
         Assert.assertEquals("Test", defaultBudget.getName());
         Assert.assertEquals(1000, budgetDAO.findById(defaultBudget.getId()).getProjected(), 0.000);
     }
 
     @Test
     public void shouldAbleFindValidBudget() {
+        Assert.assertNotNull(defaultUser);
+        Assert.assertNotNull(defaultCategory);
 
+        budgetDAO.findByUserAndCategory(defaultUser, defaultCategory.getId());
+
+        Assert.assertNotNull(defaultBudget);
+
+        System.out.println(defaultBudget.getName());
     }
 
     @Test
     public void shouldAbleToListBudgets() {
+        Assert.assertNotNull(defaultUser);
 
+        Assert.assertTrue(budgetDAO.findBudgets(defaultUser).size() >= 0);
     }
 
     @Test
-    public void shouldNotAbleDeleteBudgetWithChild() {
+    public void shouldNotAbleDeleteBudgetWithReferenceToExistingTransaction() {
 
     }
 }

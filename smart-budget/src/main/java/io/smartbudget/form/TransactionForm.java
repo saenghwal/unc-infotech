@@ -3,6 +3,8 @@ package io.smartbudget.form;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Date;
 
 import io.smartbudget.persistence.entity.Budget;
@@ -15,7 +17,7 @@ public class TransactionForm implements Serializable {
 
     private double amount;
     private String remark;
-    private Date transactionOn;
+    private Timestamp transactionOn;
     private Boolean recurring;
     private RecurringType recurringType;
     private Budget budget;
@@ -36,15 +38,15 @@ public class TransactionForm implements Serializable {
         this.remark = remark;
     }
 
-    public Date getTransactionOn() {
+    public Timestamp getTransactionOn() {
         if(transactionOn == null) {
-            return new Date();
+            return Timestamp.from(Instant.now());
         } else {
             return transactionOn;
         }
     }
 
-    public void setTransactionOn(Date transactionOn) {
+    public void setTransactionOn(Timestamp transactionOn) {
         this.transactionOn = transactionOn;
     }
 

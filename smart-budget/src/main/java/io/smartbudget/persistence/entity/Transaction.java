@@ -1,19 +1,20 @@
 package io.smartbudget.persistence.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Transaction implements Serializable {
 
     private static final long serialVersionUID = 2625666273036891436L;
 
-    private long id;
+    private Long id;
     private String name;
     private double amount;
     private String remark;
     private boolean auto;
     private Date transactionOn;
-    private Date createdAt;
+    private Timestamp createdAt;
     private Budget budget;
     private Recurring recurring;
 
@@ -65,11 +66,11 @@ public class Transaction implements Serializable {
         this.transactionOn = transactionOn;
     }
 
-    public Date getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 

@@ -1,6 +1,7 @@
 package io.smartbudget.persistence.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -10,22 +11,22 @@ public class Recurring implements Serializable {
 
     private static final long serialVersionUID = -2889004877850258404L;
 
-    private long id;
+    private Long id;
     private double amount;
     private RecurringType recurringType;
-    private Date lastRunAt;
-    private Date createdAt;
-    private Budget budgetType;
+    private Timestamp lastRunAt;
+    private Timestamp createdAt;
+    private Budget budget;
     private String remark;
     private List<Transaction> transactions;
 
     private String name;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -42,7 +43,7 @@ public class Recurring implements Serializable {
     }
 
     public void setRecurringType(RecurringType type) {
-        this.recurringType = recurringType;
+        this.recurringType = type;
     }
 
 
@@ -51,19 +52,19 @@ public class Recurring implements Serializable {
         return recurringType.getDisplay();
     }
     
-    public Date getLastRunAt() {
+    public Timestamp getLastRunAt() {
         return lastRunAt;
     }
 
-    public void setLastRunAt(Date lastRunAt) {
+    public void setLastRunAt(Timestamp lastRunAt) {
         this.lastRunAt = lastRunAt;
     }
 
-    public Date getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -87,7 +88,7 @@ public class Recurring implements Serializable {
         if (recurringType != recurring.recurringType) return false;
         if (!lastRunAt.equals(recurring.lastRunAt)) return false;
         if (!createdAt.equals(recurring.createdAt)) return false;
-        if (!budgetType.equals(recurring.budgetType)) return false;
+        if (!budget.equals(recurring.budget)) return false;
         if (!remark.equals(recurring.remark)) return false;
         if (!transactions.equals(recurring.transactions)) return false;
         return name.equals(recurring.name);
@@ -104,7 +105,7 @@ public class Recurring implements Serializable {
         result = 31 * result + recurringType.hashCode();
         result = 31 * result + lastRunAt.hashCode();
         result = 31 * result + createdAt.hashCode();
-        result = 31 * result + budgetType.hashCode();
+        result = 31 * result + budget.hashCode();
         result = 31 * result + remark.hashCode();
         result = 31 * result + transactions.hashCode();
         result = 31 * result + name.hashCode();
@@ -112,11 +113,11 @@ public class Recurring implements Serializable {
     }
 
     public Budget getBudgetType() {
-        return budgetType;
+        return budget;
     }
 
     public void setBudgetType(Budget budgetType) {
-        this.budgetType = budgetType;
+        this.budget = budgetType;
     }
 
     public List<Transaction> getTransactions() {

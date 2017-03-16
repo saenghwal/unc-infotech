@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 import java.security.Principal;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import liquibase.util.MD5Util;
@@ -16,7 +17,7 @@ public class User implements Principal, Serializable {
     private String username;
     private String password;
     private String name;
-    private Date createdAt;
+    private Timestamp createdAt;
     private String currency;
 
     public User() {
@@ -58,11 +59,11 @@ public class User implements Principal, Serializable {
         this.name = name;
     }
 
-    public Date getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 

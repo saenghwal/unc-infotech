@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Period;
@@ -350,7 +351,7 @@ public class FinanceService {
             // end budget
 
             // recurring
-            recurring.setLastRunAt(new Date());
+            recurring.setLastRunAt(Timestamp.from(Instant.now()));
             recurringDAO.update(recurring);
             // end recurring
 

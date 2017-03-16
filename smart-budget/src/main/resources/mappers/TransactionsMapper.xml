@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.smartbudget.persistence.mappers.TransactionsMapper">
+    <resultMap id="transactionResultMap" type="Transaction">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="amount" column="projected"/>
+        <result property="remark" column="remark"/>
+        <result property="auto" column="auto"/>
+        <result property="transactionOn" column="transaction_on"/>
+        <result property="createdAt" column="created_at"/>
+        <association property="budget" column="budget_id" select="selectBudget"/>
+        <association property="recurring" column="recurring_id" select="selectRecurring"/>
+    </resultMap>
+
+    <resultMap id="budgetResultMap" type="Budget">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="projected" column="projected"/>
+        <result property="actual" column="actual"/>
+        <result property="periodOn" column="period_on"/>
+        <result property="createdAt" column="created_at"/>
+        <association property="user" column="user_id" select="selectUser"/>
+        <association property="category" column="category_id" select="selectCategory"/>
+    </resultMap>
+
+    <resultMap id="recurringResultMap" type="Reccuring">
+        <id property="id" column="id"/>
+        <result property="amount" column="amount"/>
+        <result property="recurringType" column="type"/>
+        <result property="lastRunAt" column="last_run_at"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="budget" column="budget_type_id"/>
+        <result property="remark" column="remark"/>
+        <association property="budget" column="budget_type_id" select="selectBudget"/>
+        <collection property="transactions" column="budget_type_id" select="selectBudget"/>
+    </resultMap>
+</mapper>

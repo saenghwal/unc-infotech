@@ -3,6 +3,7 @@ package io.smartbudget.form.recurring;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.validation.constraints.NotNull;
@@ -17,7 +18,7 @@ public class AddRecurringForm implements Serializable {
 
     private Long budgetId;
     private Double amount;
-    private Date recurringAt;
+    private Timestamp recurringAt;
     private RecurringType recurringType;
     private String remark;
 
@@ -40,11 +41,11 @@ public class AddRecurringForm implements Serializable {
     }
 
     @NotNull(message = "{validation.recurringAt.required}")
-    public Date getRecurringAt() {
+    public Timestamp getRecurringAt() {
         return recurringAt;
     }
 
-    public void setRecurringAt(Date recurringAt) {
+    public void setRecurringAt(Timestamp recurringAt) {
         this.recurringAt = recurringAt;
     }
 

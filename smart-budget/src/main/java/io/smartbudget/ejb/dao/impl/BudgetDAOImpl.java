@@ -129,7 +129,7 @@ public class BudgetDAOImpl extends GenericDAOImpl<Budget, Long> implements Budge
 
     @Override
     public void merge(Budget budget) {
-        ((BudgetsMapper) mapper).merge(budget);
+        mapper.merge(budget);
     }
 
     @Override
